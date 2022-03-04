@@ -10,7 +10,7 @@ const netConfig = {
     putMethod: "PUT",
     deleteMethod: "DELETE",
     app: {
-        appName: 'شهرداری لواسان',
+        appName: 'شهرداری',
         appLogoImage: require('@src/assets/images/logo/logo.png').default
     }
 }

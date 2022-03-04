@@ -3,12 +3,12 @@
 //Template config options
 const themeConfig = {
   app: {
-    appName: 'Vuexy',
-    appLogoImage: require('@src/assets/images/logo/logo.svg').default
+    appName: 'شهرداری',
+    appLogoImage: require('@src/assets/images/logo/logo.png').default
   },
   layout: {
-    isRTL: false,
-    skin: 'light', // light, dark, bordered, semi-dark
+    isRTL: true,
+    skin: 'bordered', // light, dark, bordered, semi-dark
     routerTransition: 'fadeIn', // fadeIn, fadeInLeft, zoomIn, none or check this for more transition https://animate.style/
     type: 'vertical', // vertical, horizontal
     contentWidth: 'boxed', // full, boxed
@@ -22,7 +22,7 @@ const themeConfig = {
       backgroundColor: 'white' // BS color options [primary, success, etc]
     },
     footer: {
-      type: 'static' // static, sticky, hidden
+      type: 'hidden' // static, sticky, hidden
     },
     customizer: false,
     scrollTop: true // Enable scroll to top button
