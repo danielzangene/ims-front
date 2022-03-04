@@ -7,9 +7,13 @@ import { useDispatch, useSelector } from 'react-redux'
 
 export const useSkin = () => {
   // ** Hooks
-  const savedSkin = {skin: localStorage.getItem("skin")}
+  const layout = useSelector(state => state.layout)
+  const store = { ...layout }
+  const userSkin = localStorage.getItem("skin")
   const dispatch = useDispatch()
-  const store = savedSkin.skin ? savedSkin : useSelector(state => state.layout)
+  if (userSkin) {
+    store.skin = JSON.parse(userSkin)
+  }
 
   const setSkin = type => {
     dispatch(handleSkin(type))
