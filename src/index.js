@@ -30,7 +30,7 @@ import '@styles/react/libs/toastify/toastify.scss'
 // ** Core styles
 import './@core/assets/fonts/feather/iconfont.css'
 import './@core/scss/core.scss'
-import './assets/scss/style.scss'
+import './assets/scss/style-rtl.scss'
 
 // ** Service Worker
 import * as serviceWorker from './serviceWorker'
