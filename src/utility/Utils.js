@@ -48,8 +48,21 @@ export const formatDateToMonthShort = (value, toTimeForCurrentDay = true) => {
  ** This is completely up to you and how you want to store the token in your frontend application
  *  ? e.g. If you are using cookies to store the application please update this function
  */
-export const isUserLoggedIn = () => localStorage.getItem('userData')
-export const getUserData = () => JSON.parse(localStorage.getItem('userData'))
+export const isUserLoggedIn = () => {
+  let isUserLoggedIn = false
+  const accessToken = localStorage.getItem('accessToken')
+  if (accessToken) {
+      isUserLoggedIn = true
+  }
+  return isUserLoggedIn
+}
+
+export const getUserData = () => {
+  const storedUserData = {}
+  storedUserData['username'] = localStorage.getItem("username")
+  storedUserData['email'] = localStorage.getItem("email")
+  return storedUserData
+}
 
 /**
  ** This function is used for demo purpose route navigation
