@@ -4,8 +4,6 @@ import {useHistory} from "react-router-dom"
 import netConfig from '@configs/netConfig'
 
 const UseFetchUrl = ({uri, requestMethod, requestBody, callBackFunction}) => {
-    console.log(callBackFunction)
-    console.log(requestBody)
     const history = useHistory()
     useEffect(() => {
         const abortCont = new AbortController()

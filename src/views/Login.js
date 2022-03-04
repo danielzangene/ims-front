@@ -6,6 +6,7 @@ import '@styles/react/pages/page-authentication.scss'
 import UseFetchUrl from "../utility/UseFetchUrl"
 import {useState} from 'react'
 import netConfig from "../configs/netConfig"
+import { toast } from "react-toastify"
 
 const LoginCover = () => {
   const { skin } = useSkin()
@@ -21,7 +22,12 @@ const LoginCover = () => {
   const callBack = (data, error) => {
     setIsPending(false)
     if (error || data.status !== netConfig.okStatus) {
-      console.log(data) // todo must toast
+      toast.error(data.message, {
+        position: "top-left",
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined
+      })
     } else if (data) {
       if (data.username) {
         localStorage.setItem("username", data.username)
