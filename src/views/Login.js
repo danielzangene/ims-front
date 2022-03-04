@@ -1,18 +1,50 @@
 import { useSkin } from '@hooks/useSkin'
-import { Link } from 'react-router-dom'
-import { Facebook, Twitter, Mail, GitHub } from 'react-feather'
+import { Link, useHistory } from 'react-router-dom'
 import InputPasswordToggle from '@components/input-password-toggle'
 import { Row, Col, CardTitle, CardText, Form, Label, Input, Button } from 'reactstrap'
 import '@styles/react/pages/page-authentication.scss'
+import UseFetchUrl from "../utility/UseFetchUrl"
+import {useState} from 'react'
+import netConfig from "../configs/netConfig"
 
 const LoginCover = () => {
   const { skin } = useSkin()
 
   const illustration = skin === 'dark' ? 'login-v2-dark.svg' : 'login-v2.svg',
     source = require(`@src/assets/images/pages/${illustration}`).default
+  const history = useHistory()
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+
+  const [isPending, setIsPending] = useState(false)
+
+  const callBack = (data, error) => {
+    setIsPending(false)
+    if (error || data.status !== netConfig.okStatus) {
+      console.log(data) // todo must toast
+    } else if (data) {
+      if (data.username) {
+        localStorage.setItem("username", data.username)
+      }
+      if (data.email) {
+        localStorage.setItem("email", data.email)
+      }
+      if (data.accessToken) {
+        localStorage.setItem("accessToken", data.accessToken)
+      }
+      history.push('/dashboard')
+    }
+  }
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    setIsPending(true)
+  }
 
   return (
     <div className='auth-wrapper auth-cover'>
+      { isPending && <UseFetchUrl uri={"/api/auth/signin"} requestMethod={"POST"} requestBody={{username, password}} callBackFunction={callBack} /> }
       <Row className='auth-inner m-0'>
         <Link className='brand-logo' to='/' onClick={e => e.preventDefault()}>
           <svg viewBox='0 0 139 95' version='1.1' height='28'>
@@ -63,7 +95,7 @@ const LoginCover = () => {
               </g>
             </g>
           </svg>
-          <h2 className='brand-text text-primary ms-1'>Vuexy</h2>
+          <h2 className='brand-text text-primary ms-1'>شهرداری لواسان</h2>
         </Link>
         <Col className='d-none d-lg-flex align-items-center p-5' lg='8' sm='12'>
           <div className='w-100 d-lg-flex align-items-center justify-content-center px-5'>
@@ -73,60 +105,34 @@ const LoginCover = () => {
         <Col className='d-flex align-items-center auth-bg px-2 p-lg-5' lg='4' sm='12'>
           <Col className='px-xl-2 mx-auto' sm='8' md='6' lg='12'>
             <CardTitle tag='h2' className='fw-bold mb-1'>
-              Welcome to Vuexy! 👋
+              شهرداری لواسان
             </CardTitle>
-            <CardText className='mb-2'>Please sign-in to your account and start the adventure</CardText>
-            <Form className='auth-login-form mt-2' onSubmit={e => e.preventDefault()}>
+            <Form className='auth-login-form mt-2' onSubmit={handleSubmit}>
               <div className='mb-1'>
                 <Label className='form-label' for='login-email'>
-                  Email
+                  نام کاربری
                 </Label>
-                <Input type='email' id='login-email' placeholder='john@example.com' autoFocus />
+                <Input type='text' id='login-username' autoFocus
+                       value={username}
+                       onChange={(e) => setUsername(e.target.value)}
+                />
               </div>
-              <div className='mb-1'>
+              <div className='mb-3'>
                 <div className='d-flex justify-content-between'>
                   <Label className='form-label' for='login-password'>
-                    Password
+                    رمزعبور
                   </Label>
-                  <Link to='/pages/forgot-password-cover'>
-                    <small>Forgot Password?</small>
-                  </Link>
                 </div>
-                <InputPasswordToggle className='input-group-merge' id='login-password' />
+                <InputPasswordToggle className='input-group-merge' id='login-password'
+                                     value={password}
+                                     onChange={(e) => setPassword(e.target.value)}
+                />
               </div>
-              <div className='form-check mb-1'>
-                <Input type='checkbox' id='remember-me' />
-                <Label className='form-check-label' for='remember-me'>
-                  Remember Me
-                </Label>
-              </div>
-              <Button color='primary' tag={Link} block to='/'>
-                Sign in
+              <Button color='primary' block>
+                {isPending && "لطفا منتظر بمانید"}
+                {!isPending && "ورود"}
               </Button>
             </Form>
-            <p className='text-center mt-2'>
-              <span className='me-25'>New on our platform?</span>
-              <Link to='/pages/register-cover'>
-                <span>Create an account</span>
-              </Link>
-            </p>
-            <div className='divider my-2'>
-              <div className='divider-text'>or</div>
-            </div>
-            <div className='auth-footer-btn d-flex justify-content-center'>
-              <Button color='facebook'>
-                <Facebook size={14} />
-              </Button>
-              <Button color='twitter'>
-                <Twitter size={14} />
-              </Button>
-              <Button color='google'>
-                <Mail size={14} />
-              </Button>
-              <Button className='me-0' color='github'>
-                <GitHub size={14} />
-              </Button>
-            </div>
           </Col>
         </Col>
       </Row>
