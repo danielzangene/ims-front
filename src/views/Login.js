@@ -32,7 +32,7 @@ const LoginCover = () => {
       if (data.accessToken) {
         localStorage.setItem("accessToken", data.accessToken)
       }
-      history.push('/dashboard')
+      history.push('/home')
     }
   }
 
