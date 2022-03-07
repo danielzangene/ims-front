@@ -1,3 +1,5 @@
+import jwt_decode from 'jwt-decode'
+
 // ** Checks if an object is empty (returns boolean)
 export const isObjEmpty = obj => Object.keys(obj).length === 0
 
@@ -59,9 +61,15 @@ export const isUserLoggedIn = () => {
 
 export const getUserData = () => {
   const storedUserData = {}
-  storedUserData['username'] = localStorage.getItem("username")
-  storedUserData['email'] = localStorage.getItem("email")
+  if (isUserLoggedIn()) {
+    return jwt_decode(localStorage.getItem("accessToken"))
+  }
   return storedUserData
+}
+
+export const logoutHandler = () => {
+  localStorage.removeItem('accessToken')
+  location.href = "/login"
 }
 
 /**

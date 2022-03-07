@@ -1,47 +1,38 @@
-import {useEffect} from 'react'
-import {useHistory} from "react-router-dom"
-
 import netConfig from '@configs/netConfig'
 
-const UseFetchUrl = ({uri, requestMethod, requestBody, callBackFunction}) => {
-    const history = useHistory()
-    useEffect(() => {
-        const abortCont = new AbortController()
-        const initRequest = {
-            signal: abortCont.signal,
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: localStorage.getItem("accessToken")
-            },
-            method: requestMethod
-        }
-        if (requestMethod !== netConfig.getMethod) {
-            initRequest["body"] = JSON.stringify(requestBody)
-        }
-        console.log(initRequest)
+import { logoutHandler } from '@utils'
 
-        fetch(netConfig.baseUrl + uri, initRequest)
-            .then(res => {
-                return res.json()
-            })
-            .then(data => {
-                console.log(data)
-                if (data.status === netConfig.unauthorizedStatus) {
-                    history.push("/login")
-                } else if (callBackFunction) {
-                    callBackFunction(data, null)
-                }
-            })
-            .catch(err => {
-                if (err.name === 'AbortError') {
-                    console.log('fetch aborted')
-                } else if (callBackFunction) {
-                    callBackFunction(null, err.message)
-                }
-            })
-        return () => abortCont.abort()
-    }, [uri])
-    return (<div></div>)
+const UseFetchUrl = async (uri, requestMethod, requestBody) => {
+
+    const initRequest = {
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: localStorage.getItem("accessToken")
+        },
+        method: requestMethod
+    }
+
+    if (requestMethod !== netConfig.getMethod) initRequest["body"] = JSON.stringify(requestBody)
+
+    let data = await fetch(netConfig.baseUrl + uri, initRequest)
+        .catch(err => {
+            console.log(err)
+        })
+
+    data = await data.json()
+        .catch(err => {
+            console.log(err)
+        })
+    if (data.status === netConfig.unauthorizedStatus) logoutHandler()
+
+        //     if (erro.name === "AbortError") {
+        //         return console.log('fetch aborted')
+        //     }
+        //     setIsPending(false)
+        //     setError(erro.message)
+        //     console.error(erro)
+
+    return data
 }
 
 export default UseFetchUrl

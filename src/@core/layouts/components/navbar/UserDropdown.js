@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react'
 import Avatar from '@components/avatar'
 
 // ** Utils
-import { isUserLoggedIn, getUserData } from '@utils'
+import { isUserLoggedIn, getUserData, logoutHandler } from '@utils'
 
 // ** Third Party Components
 import { User, Mail, CheckSquare, MessageSquare, Settings, CreditCard, HelpCircle, Power } from 'react-feather'
@@ -30,11 +30,8 @@ const UserDropdown = () => {
     }
   }, [])
 
-  const handleLogout = () => {
-    localStorage.removeItem('accessToken')
-    localStorage.removeItem("username")
-    localStorage.removeItem("email")
-    history.push("/login")
+  const logout = () => {
+    logoutHandler()
   }
 
   //** Vars
@@ -55,7 +52,7 @@ const UserDropdown = () => {
           <span className='align-middle'>Profile</span>
         </DropdownItem>
         <DropdownItem divider />
-        <DropdownItem onClick={handleLogout}>
+        <DropdownItem onClick={logout}>
           <Power size={14} className='me-75' />
           <span className='align-middle'>Logout</span>
         </DropdownItem>
