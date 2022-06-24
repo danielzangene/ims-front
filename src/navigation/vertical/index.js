@@ -12,5 +12,11 @@ export default [
     title: 'پروفایل',
     icon: <User size={20} />,
     navLink: '/profile'
+  },
+  {
+    id: 'test',
+    title: 'تست',
+    icon: <User size={20} />,
+    navLink: '/test'
   }
 ]

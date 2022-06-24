@@ -59,7 +59,7 @@ const LoginCover = () => {
     }
 
     const callBack = (data) => {
-        if (data.status !== netConfig.okStatus) {
+        if (data.code !== netConfig.okStatus) {
             toast.error(data.message, {
                 position: "top-left",
                 pauseOnHover: true,
@@ -67,7 +67,7 @@ const LoginCover = () => {
                 progress: undefined
             })
         } else if (data) {
-            if (data.accessToken) localStorage.setItem("accessToken", data.accessToken)
+            if (data.resultData) localStorage.setItem("accessToken", data.resultData.token)
             history.push('/home')
         }
     }

@@ -18,19 +18,11 @@ const UseFetchUrl = async (uri, requestMethod, requestBody) => {
         .catch(err => {
             console.log(err)
         })
-
     data = await data.json()
         .catch(err => {
             console.log(err)
         })
-    if (data.status === netConfig.unauthorizedStatus) logoutHandler()
-
-        //     if (erro.name === "AbortError") {
-        //         return console.log('fetch aborted')
-        //     }
-        //     setIsPending(false)
-        //     setError(erro.message)
-        //     console.error(erro)
+    if (data.code === netConfig.unauthorizedStatus) logoutHandler()
 
     return data
 }
