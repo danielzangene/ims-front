@@ -31,23 +31,20 @@ const Test = () => {
         console.log(data)
         setIsPending(false)
     }
-  return (
-      <Card>
-        <CardHeader>
-          <CardTitle>test</CardTitle>
-
-        </CardHeader>
-        <CardBody>
-          <CardText>{data ? data.message : ''}
-
-          </CardText>
-        </CardBody>
-          <Button color='primary' disabled={isPending} onClick={handleSubmit}>
-              {isPending ? <Spinner size='sm' color='light' /> : "test"}
-          </Button>
-
-      </Card>
-  )
+    return (
+        <Card>
+            <CardHeader>
+                <CardTitle>test</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>{data ? data.message : ''}
+                </CardText>
+            </CardBody>
+            <Button color='primary' disabled={isPending} onClick={handleSubmit}>
+                {isPending ? <Spinner size='sm' color='light'/> : "test"}
+            </Button>
+        </Card>
+    )
 }
 
 export default Test

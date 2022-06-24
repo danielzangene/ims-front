@@ -1,6 +1,6 @@
 import netConfig from '@configs/netConfig'
 
-import { logoutHandler, getAccessToken } from '@utils'
+import {getAccessToken, logoutHandler} from '@utils'
 
 const UseFetchUrl = async (uri, requestMethod, requestBody) => {
 
@@ -12,9 +12,13 @@ const UseFetchUrl = async (uri, requestMethod, requestBody) => {
         method: requestMethod,
         body: JSON.stringify(requestBody)
     }
+    const data = await fetch(netConfig.baseUrl + uri, initRequest)
+        .then(res => {
+            return res.json()
+        }).then(res => {
+            return res
+        })
 
-    let data = await fetch(netConfig.baseUrl + uri, initRequest)
-    data = await data.json()
     if (data.code === netConfig.unauthorizedStatus) logoutHandler()
 
     return data

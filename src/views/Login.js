@@ -74,15 +74,11 @@ const LoginCover = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-
-        if (!validationCheck()) {
-            return
-        }
-
+        if (!validationCheck()) return
         setIsPending(true)
         const data = await UseFetchUrl("/api/auth/signin", "POST", body)
         callBack(data)
-        if (isPending) setIsPending(false)
+        setIsPending(false)
     }
 
     return (
