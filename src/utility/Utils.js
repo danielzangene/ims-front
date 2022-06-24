@@ -67,6 +67,10 @@ export const getUserData = () => {
   return storedUserData
 }
 
+export const getAccessToken = () => {
+    return localStorage.getItem("accessToken")
+}
+
 export const logoutHandler = () => {
   localStorage.removeItem('accessToken')
   location.href = "/login"

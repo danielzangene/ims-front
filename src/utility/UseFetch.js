@@ -1,6 +1,6 @@
 import netConfig from '@configs/netConfig'
 import { useState, useEffect } from 'react'
-import { logoutHandler } from '@utils'
+import { logoutHandler, getAccessToken } from '@utils'
 import { useHistory } from "react-router-dom"
 
 const useFetch = (uri, requestMethod, requestBody) => {
@@ -8,14 +8,16 @@ const useFetch = (uri, requestMethod, requestBody) => {
     const history = useHistory()
 
     useEffect(() => {
+        const abortCont = new AbortController()
         const initRequest = {
             headers: {
                 "Content-Type": "application/json",
-                Authorization: localStorage.getItem("accessToken")
+                Authorization: getAccessToken()
             },
-            method: requestMethod
+            method: requestMethod,
+            body: JSON.stringify(requestBody),
+            signal: abortCont.signal
         }
-        if (requestMethod !== netConfig.getMethod) initRequest["body"] = JSON.stringify(requestBody)
         setTimeout(() => {
             fetch(netConfig.baseUrl + uri, initRequest)
                 .then(res => {
@@ -29,9 +31,8 @@ const useFetch = (uri, requestMethod, requestBody) => {
                     } else {
                         setData(data)
                     }
-                    console.log(data)
                 })
-        }, 1000)
+        }, 3000)
         return () => abortCont.abort()
     }, [uri])
 
