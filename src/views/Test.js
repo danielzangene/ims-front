@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardBody, CardTitle, CardText, CardLink, Button } from 'reactstrap'
+import { Card, CardHeader, CardBody, CardTitle, CardText, CardLink, Button, Spinner } from 'reactstrap'
 // import netConfig from "../configs/netConfig"
 import {useState} from 'react'
 import UseFetchUrl from "../utility/UseFetchUrl"
@@ -6,7 +6,6 @@ import UseFetchUrl from "../utility/UseFetchUrl"
 
 const Test = () => {
     const [isPending, setIsPending] = useState(false)
-
     const [data, setData] = useState(null)
 
     // const callBack = (data) => {
@@ -29,6 +28,7 @@ const Test = () => {
         setIsPending(true)
         const data = await UseFetchUrl("/data/test", "POST", null)
         setData(data)
+        console.log(data)
         setIsPending(false)
     }
   return (
@@ -38,10 +38,12 @@ const Test = () => {
 
         </CardHeader>
         <CardBody>
-          <CardText>{data ? data.message : ''}</CardText>
+          <CardText>{data ? data.message : ''}
+
+          </CardText>
         </CardBody>
           <Button color='primary' disabled={isPending} onClick={handleSubmit}>
-              {isPending ? "wait" : "test"}
+              {isPending ? <Spinner size='sm' color='light' /> : "test"}
           </Button>
 
       </Card>

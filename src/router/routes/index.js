@@ -1,7 +1,7 @@
 import { lazy } from 'react'
 
 // ** Document title
-const TemplateTitle = '%s - شهرداری'
+const TemplateTitle = '%s - سامانه مدیریتی'
 
 // ** Default Route
 const DefaultRoute = '/home'
