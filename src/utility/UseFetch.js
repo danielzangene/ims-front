@@ -1,11 +1,9 @@
 import netConfig from '@configs/netConfig'
-import { useState, useEffect } from 'react'
-import { logoutHandler, getAccessToken } from '@utils'
-import { useHistory } from "react-router-dom"
+import {useEffect, useState} from 'react'
+import {getAccessToken, logoutHandler} from '@utils'
 
 const useFetch = (uri, requestMethod, requestBody) => {
     const [data, setData] = useState(null)
-    const history = useHistory()
 
     useEffect(() => {
         const abortCont = new AbortController()
@@ -25,9 +23,7 @@ const useFetch = (uri, requestMethod, requestBody) => {
                 })
                 .then(data => {
                     if (data.code === netConfig.unauthorizedStatus) {
-                        logoutHandler()
-                        history.push('/login')
-                        setData(data)
+                        logoutHandler(data.message)
                     } else {
                         setData(data)
                     }
@@ -36,7 +32,7 @@ const useFetch = (uri, requestMethod, requestBody) => {
         return () => abortCont.abort()
     }, [uri])
 
-    return { data }
+    return {data}
 }
 
 export default useFetch

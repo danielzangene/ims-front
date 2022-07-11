@@ -19,7 +19,7 @@ const UseFetchUrl = async (uri, requestMethod, requestBody) => {
             return res
         })
 
-    if (data.code === netConfig.unauthorizedStatus) logoutHandler()
+    if (data.code === netConfig.unauthorizedStatus) logoutHandler(data.message)
 
     return data
 }

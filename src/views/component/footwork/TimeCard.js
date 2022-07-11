@@ -11,6 +11,7 @@ const TimeCard = ({data}) => {
     const [show, setShow] = useState(false)
     const [timeData, setTimeDate] = useState({...data})
     const [blockWindow, setBlockWindow] = useState(false)
+    const [blockCard, setBlockCard] = useState(false)
 
     const [id, setId] = useState(null)
     const [min, setMin] = useState()
@@ -44,8 +45,12 @@ const TimeCard = ({data}) => {
     }
 
     const deleteFootLog = id => {
-        timeData.footWork = timeData.footWork.filter(log => log.id !== id)
-        setTimeDate({...timeData})
+        setBlockCard(true)
+        setTimeout(function () {
+            setBlockCard(false)
+            timeData.footWork = timeData.footWork.filter(log => log.id !== id)
+            setTimeDate({...timeData})
+        }, 1000)
     }
 
     const logActions = {
@@ -64,7 +69,7 @@ const TimeCard = ({data}) => {
         setTimeout(function () {
             setBlockWindow(false)
             setShow(false)
-        }, 2000)
+        }, 1000)
         const footLog = {
             id: id ? id : Math.floor(Math.random() * 10000),
             log: `${String(log.hour).padStart(2, '0')}:${String(log.min).padStart(2, '0')}`,
@@ -78,6 +83,7 @@ const TimeCard = ({data}) => {
     return (
         <Fragment>
             <CardBody className='time-card-body'>
+                <UILoader blocking={blockCard}>
                 <div
                     className={timeData && timeData.off ? 'text-center time-card-header bg-light-danger rounded' : 'text-center bg-text-center time-card-header bg-light-primary rounded'}>
                     <div>
@@ -85,6 +91,7 @@ const TimeCard = ({data}) => {
                         <small className='text-muted'>{timeData && timeData.workTime}</small>
                     </div>
                 </div>
+                </UILoader>
                 <div className='foot-work-details'>
                     {timeData && timeData.footWork && timeData.footWork.map((item, index) => (
                         <div key={item && `log-${item.log}`}>
@@ -156,7 +163,6 @@ const TimeCard = ({data}) => {
                 </UILoader>
             </Modal>
         </Fragment>
-
     )
 }
 

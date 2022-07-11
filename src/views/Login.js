@@ -1,9 +1,9 @@
 import {useSkin} from '@hooks/useSkin'
 import {Link, useHistory} from 'react-router-dom'
 import InputPasswordToggle from '@components/input-password-toggle'
-import {Row, Col, CardTitle, Form, Label, Input, Button, FormFeedback} from 'reactstrap'
+import {Button, CardTitle, Col, Form, FormFeedback, Input, Label, Row} from 'reactstrap'
 import '@styles/react/pages/page-authentication.scss'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import {toast} from "react-toastify"
 
 import UseFetchUrl from "../utility/UseFetchUrl"
@@ -18,6 +18,8 @@ const LoginCover = () => {
 
     const history = useHistory()
 
+    const queryMessage = new URLSearchParams(window.location.search).get("message")
+
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
@@ -28,13 +30,28 @@ const LoginCover = () => {
     const [errors, setErrors] = useState({
         password: {
             is: false,
-            message: "password sdas"
+            message: "لطفا رمزعبور را وارد کنید"
         },
         username: {
             is: false,
-            message: "your message"
+            message: "لطفا نام کاربری را وارد کنید"
         }
     })
+
+    function showErrorToast(message) {
+        toast.error(message, {
+            position: "top-left",
+            pauseOnHover: true,
+            draggable: false,
+            progress: undefined
+        })
+    }
+
+    useEffect(() => {
+        if (queryMessage) {
+            showErrorToast(queryMessage)
+        }
+    }, [queryMessage])
 
     const validationCheck = () => {
         let result = true
@@ -60,12 +77,7 @@ const LoginCover = () => {
 
     const callBack = (data) => {
         if (data.code !== netConfig.okStatus) {
-            toast.error(data.message, {
-                position: "top-left",
-                pauseOnHover: true,
-                draggable: false,
-                progress: undefined
-            })
+            showErrorToast(data.message)
         } else if (data) {
             if (data.resultData) localStorage.setItem("accessToken", data.resultData.token)
             history.push('/home')
@@ -143,15 +155,15 @@ const LoginCover = () => {
                 </Col>
                 <Col className='d-flex align-items-center auth-bg px-2 p-lg-5' lg='4' sm='12'>
                     <Col className='px-xl-2 mx-auto' sm='8' md='6' lg='12'>
-                        <CardTitle tag='h2' className='fw-bold mb-1'>
+                        <CardTitle tag='h2' className='text-center fw-bold mb-1'>
                             سامانه مدیریتی
                         </CardTitle>
-                        <Form className='auth-login-form mt-2' onSubmit={handleSubmit}>
+                        <Form className='auth-login-form mt-2 text-end' onSubmit={handleSubmit}>
                             <div className='mb-1'>
                                 <Label className='form-label' for='login-email'>
                                     نام کاربری
                                 </Label>
-                                <Input type='text' id='login-username' autoFocus
+                                <Input type='text' id='login-username' className='text-end' autoFocus
                                        value={username}
                                        onChange={(e) => setUsername(e.target.value)}
                                        invalid={errors.username.is && true}
@@ -159,12 +171,12 @@ const LoginCover = () => {
                                 {errors.username.is && <FormFeedback>{errors.username.message}</FormFeedback>}
                             </div>
                             <div className='mb-3'>
-                                <div className='d-flex justify-content-between'>
+                                <div >
                                     <Label className='form-label' for='login-password'>
                                         رمزعبور
                                     </Label>
                                 </div>
-                                <InputPasswordToggle className='input-group-merge' id='login-password'
+                                <Input  type='password' className='input-group-merge text-end' id='login-password'
                                                      value={password}
                                                      onChange={(e) => setPassword(e.target.value)}
                                                      invalid={errors.password.is && true}

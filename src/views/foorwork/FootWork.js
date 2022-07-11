@@ -7,13 +7,12 @@ import Spinner from '@components/spinner/Loading-spinner'
 
 const FootWork = () => {
     const [data, setData] = useState(null)
-    const [blockWindow, setBlockWindow] = useState(true)
 
     const refresh = () => {
-        setBlockWindow(true)
+        const oldData = data
+        console.log(oldData)
+        setData(null)
         setTimeout(function () {
-            setBlockWindow(false)
-            setData(null)
             data.totalWeek = '05:55'
             setData(JSON.parse(JSON.stringify(data)))
         }, 2000)
@@ -180,16 +179,15 @@ const FootWork = () => {
                 ]
             }
             setTimeout(function () {
-                setBlockWindow(false)
                 setData(d)
-            }, 2000)
+            }, 1000)
 
         }, []
     )
 
     return (
         <Card className='foot-work'>
-            <UILoader blocking={blockWindow} loader={<Spinner/>}>
+            <UILoader blocking={!data} loader={<Spinner/>}>
                 <CardBody>
                     {data &&
                         <Row>

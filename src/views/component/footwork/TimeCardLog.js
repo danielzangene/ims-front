@@ -18,11 +18,11 @@ const TimeCardLog = ({data, index, logActions}) => {
                     </p>
                 </DropdownToggle>
                 <DropdownMenu end>
-                    <DropdownItem key='delete' onClick={() => logActions.deleteLog(logTimeData.id)}>
-                        <Trash className='opacity-50 text-danger'/>
-                    </DropdownItem>
                     <DropdownItem key='edit' onClick={() => logActions.editLog(logTimeData.id)}>
                         <Edit3 className='opacity-50 text-info'/>
+                    </DropdownItem>
+                    <DropdownItem key='delete' onClick={() => logActions.deleteLog(logTimeData.id)}>
+                        <Trash className='opacity-50 text-danger'/>
                     </DropdownItem>
                 </DropdownMenu>
             </UncontrolledDropdown>
