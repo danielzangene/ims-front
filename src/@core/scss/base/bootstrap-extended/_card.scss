@@ -278,19 +278,41 @@
   }
 }
 
-// Apply Job Card
-.card-apply-job {
-  .apply-job-package {
-    padding: 1.2rem;
-    margin-bottom: 1.15rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    sup {
-      top: -0.8rem;
-    }
+.foot-work-week-sheet {
+  .row {
+    --bs-gutter-x: 1rem
   }
 }
+.foot-work-week-sheet{
+    min-height: 400px;
+}
+.foot-work-details >  {
+  div:nth-of-type(2n){
+    margin-bottom: 10px;
+  }
+}
+.time-card-log {
+  .dropdown-menu {
+    min-width: 0 !important;
+  }
+}
+
+.vertical-divider-left {
+  border-right: 1px dashed #e0e0e0;
+}
+  .time-card-body {
+    padding: 0 !important;
+  }
+  .time-card-header {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: .2rem;
+    padding-top: .5rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
 // Transaction Card
 .card-transaction {
@@ -424,7 +446,7 @@
 //----------------------------------------------
 
 // Chart-dropdown Button
-.chart-dropdown {
+.time-card-log-dropdown {
   .btn {
     font-size: 1rem;
     font-weight: $font-weight-normal;
