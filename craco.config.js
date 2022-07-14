@@ -24,6 +24,8 @@ module.exports = {
       '@styles': path.resolve(__dirname, 'src/@core/scss'),
       '@configs': path.resolve(__dirname, 'src/configs'),
       '@utils': path.resolve(__dirname, 'src/utility/Utils'),
+      '@toastUtils': path.resolve(__dirname, 'src/utility/ToastUtils'),
+      '@startUtils': path.resolve(__dirname, 'src/utility/StartUtils'),
       '@hooks': path.resolve(__dirname, 'src/utility/hooks')
     }
   }
