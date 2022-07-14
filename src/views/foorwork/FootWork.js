@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react'
-import {ChevronLeft, ChevronRight, RefreshCcw} from 'react-feather'
+import {ChevronLeft, ChevronRight} from 'react-feather'
 import {Button, Card, CardBody, Col, Row} from 'reactstrap'
 import TimeCard from '../component/footwork/TimeCard'
 import UILoader from '@components/ui-loader'
@@ -67,32 +67,38 @@ const FootWork = () => {
     return (
         <Card className='foot-work'>
             <UILoader blocking={!data} loader={<Spinner/>}>
-                <CardBody>
+                <CardBody className='pb-0'>
                     {data &&
                         <Row>
-                            <Col lg='3' md='6' sm='12'>
-                                <Button className='btn-icon rounded-circle'
-                                        onClick={refresh}
-                                        color='flat-primary'>
-                                    <RefreshCcw size={25}/>
-                                </Button>
-                            </Col>
-                            <Col lg='6' md='8' sm='12' className='my-auto'>
-                                <Row>
-                                    <Col className='text-end vertical-divider-left my-auto'>
-                                        <h6>جمع هفته</h6>
-                                    </Col>
-                                    <Col className='my-auto'>
-                                        <h6>{totalWeek && addStr(totalWeek, 2, ":")}</h6>
-                                    </Col>
-                                </Row>
-                            </Col>
-                            <Col lg='3' md='4' sm='12' className='text-end'>
+                            <Col className='col-2'>
                                 <Button className='btn-icon rounded-circle' color='flat-primary'
                                         onClick={previousWeek}>
                                     <ChevronRight size={24}/>
                                 </Button>
-                                {data && data.resultData && data.resultData.fromTo}
+                            </Col>
+                            <Col className='col-8 my-auto text-center align-middle'>
+                                <div>
+                                    <h6>{totalWeek && `جمع هفته    |    ${addStr(totalWeek, 2, ":")}`}</h6>
+                                    <small className='text-muted'>{data && data.resultData.fromTo}</small>
+                                </div>
+
+                                {/*<Row>*/}
+                                {/*    <Col xs='6' className='text-end vertical-divider-left my-auto'>*/}
+                                {/*        <h6>جمع هفته</h6>*/}
+                                {/*    </Col>*/}
+                                {/*    <Col xs='6' className='my-auto text-start'>*/}
+                                {/*        <h6>{totalWeek && addStr(totalWeek, 2, ":")}</h6>*/}
+                                {/*    </Col>*/}
+                                {/*</Row>*/}
+                                {/*<Row>*/}
+                                {/*    <Col>*/}
+                                {/*        <small className={}>*/}
+                                {/*            {data && data.resultData.fromTo}*/}
+                                {/*        </small>*/}
+                                {/*    </Col>*/}
+                                {/*</Row>*/}
+                            </Col>
+                            <Col className='text-end col-2'>
                                 <Button className='btn-icon rounded-circle' color='flat-primary' onClick={nextWeek}>
                                     <ChevronLeft size={24}/>
                                 </Button>

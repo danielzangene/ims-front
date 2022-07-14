@@ -1,9 +1,16 @@
+// ** React Imports
 import {Fragment} from 'react'
+
+// ** Dropdowns Imports
 import UserDropdown from './UserDropdown'
-import {Moon, Sun} from 'react-feather'
-import {NavItem, NavLink} from 'reactstrap'
+
+// ** Third Party Components
+import {Play, Moon, Sun} from 'react-feather'
+
+// ** Reactstrap Imports
+import {Button, NavItem, NavLink} from 'reactstrap'
 import StartFootWorkLog from "./StartFootWorkLog"
-import {useSkin} from "../../../../utility/hooks/useSkin"
+import { useSkin } from '@hooks/useSkin'
 
 const NavbarUser = () => {
     // ** Props
@@ -21,20 +28,15 @@ const NavbarUser = () => {
     return (
         <Fragment>
             <div className='bookmark-wrapper d-flex align-items-right'>
-                <NavItem className='d-none d-lg-block'>
-                    <NavLink className='nav-link-style'>
+                <NavItem className='d-flex align-item-center'>
+                    <div className='d-flex align-items-center text-middle px-1'>
                         <ThemeToggler/>
-                    </NavLink>
+                    </div>
                 </NavItem>
-
             </div>
 
             <ul className='nav navbar-nav align-items-center ms-auto'>
-                <NavItem className='d-none d-lg-block'>
-                    <NavLink className='nav-link-style'>
-                        <StartFootWorkLog/>
-                    </NavLink>
-                </NavItem>
+                <StartFootWorkLog />
                 <UserDropdown/>
             </ul>
         </Fragment>
