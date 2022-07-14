@@ -8,8 +8,9 @@ import useFetchUrl from "../../utility/UseFetchUrl"
 import netConfig from '@configs/netConfig'
 import {useStartDay} from "@startUtils"
 import {addStr} from '@utils'
+import { useSpring, animated } from 'react-spring'
 
-const FootWork = () => {
+const FootWork = (isVisible) => {
 
     const [data, setData] = useState(null)
     const [totalWeek, setTotalWeek] = useState(null)
@@ -17,6 +18,10 @@ const FootWork = () => {
     const [timeSheet, setTimeSheet] = useState(null)
     const [weekOfToday, setWeekOfToday] = useState(0)
     const requestBody = {weekOfToday}
+    const styles = useSpring({
+        opacity: isVisible ? 1 : 0,
+        y: isVisible ? 0 : 24
+    })
 
     const refresh = async () => {
         // data.resultData.timeSheet = null
@@ -67,6 +72,7 @@ const FootWork = () => {
     return (
         <Card className='foot-work'>
             <UILoader blocking={!data} loader={<Spinner/>}>
+                <animated.div style={styles}>
                 <CardBody className='pb-0'>
                     {data &&
                         <Row>
@@ -81,22 +87,6 @@ const FootWork = () => {
                                     <h6>{totalWeek && `جمع هفته    |    ${addStr(totalWeek, 2, ":")}`}</h6>
                                     <small className='text-muted'>{data && data.resultData.fromTo}</small>
                                 </div>
-
-                                {/*<Row>*/}
-                                {/*    <Col xs='6' className='text-end vertical-divider-left my-auto'>*/}
-                                {/*        <h6>جمع هفته</h6>*/}
-                                {/*    </Col>*/}
-                                {/*    <Col xs='6' className='my-auto text-start'>*/}
-                                {/*        <h6>{totalWeek && addStr(totalWeek, 2, ":")}</h6>*/}
-                                {/*    </Col>*/}
-                                {/*</Row>*/}
-                                {/*<Row>*/}
-                                {/*    <Col>*/}
-                                {/*        <small className={}>*/}
-                                {/*            {data && data.resultData.fromTo}*/}
-                                {/*        </small>*/}
-                                {/*    </Col>*/}
-                                {/*</Row>*/}
                             </Col>
                             <Col className='text-end col-2'>
                                 <Button className='btn-icon rounded-circle' color='flat-primary' onClick={nextWeek}>
@@ -116,6 +106,7 @@ const FootWork = () => {
                         ))}
                     </Row>
                 </CardBody>
+                </animated.div>
             </UILoader>
         </Card>
     )

@@ -286,6 +286,9 @@
 .foot-work-week-sheet{
     min-height: 400px;
 }
+.btn-play-icon{
+    margin-right: 4px;
+}
 .foot-work-details >  {
   div:nth-of-type(2n){
     margin-bottom: 10px;
@@ -301,6 +304,7 @@
   border-right: 1px dashed #e0e0e0;
 }
   .time-card-body {
+    min-height: 400px;
     padding: 0 !important;
   }
   .time-card-header {

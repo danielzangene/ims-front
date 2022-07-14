@@ -11,6 +11,7 @@ const themeConfig = {
     skin: 'bordered', // light, dark, bordered, semi-dark
     routerTransition: 'fadeIn', // fadeIn, fadeInLeft, zoomIn, none or check this for more transition https://animate.style/
     type: 'vertical', // vertical, horizontal
+    animation: 'fadeIn', // fadeInLeft, zoomIn , fadeIn, none
     contentWidth: 'full', // full, boxed
     menu: {
       isHidden: false,

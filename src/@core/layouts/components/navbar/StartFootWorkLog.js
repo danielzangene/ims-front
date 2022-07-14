@@ -23,7 +23,7 @@ const StartFootWorkLog = () => {
         const res = await useFetchUrl("/api/v1/personnel/footwork/day/total", "PATCH", null)
         if (res.resultData && res.resultData.isCounting) {
             setStart(true)
-            setButtonClassNames('round btn-danger')
+            setButtonClassNames('round waves-effect btn btn-outline-success')
             const h = parseInt(res.resultData.totalDay.substring(0, 2))
             const m = parseInt(res.resultData.totalDay.substring(2, 4))
             const sec = getSeconds(h, m)
@@ -39,7 +39,7 @@ const StartFootWorkLog = () => {
     const startCounting = async () => {
         const res = await useFetchUrl("/api/v1/personnel/footwork/log/current", "POST", null)
         if (!start) {
-            setButtonClassNames('round btn-danger')
+            setButtonClassNames('round waves-effect btn btn-outline-success')
             if (res.code === netConfig.okStatus) {
                 setStart(true)
                 const h = parseInt(res.resultData.totalDay.substring(0, 2))
@@ -71,10 +71,10 @@ const StartFootWorkLog = () => {
     )
 
     return (
-        <div onClick={startCounting}>
-            <Button.Ripple className={`btn-icon ${buttonClassNames}`} outline color='success'>
-                {start ? <div><FootWorkTimer start={counter}/><Pause/></div> : <Play className='text-success'/>}
-            </Button.Ripple>
+        <div onClick={startCounting} className='px-1'>
+            <Button className={`btn-icon ${buttonClassNames}`} outline color='success'>
+                {start ? <div><FootWorkTimer start={counter}/><Pause/></div> : <Play className='text-success btn-play-icon'/>}
+            </Button>
         </div>
     )
 }
