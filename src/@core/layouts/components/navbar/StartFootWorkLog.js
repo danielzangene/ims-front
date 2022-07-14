@@ -73,7 +73,7 @@ const StartFootWorkLog = () => {
     return (
         <div onClick={startCounting} className='px-1'>
             <Button className={`btn-icon ${buttonClassNames}`} outline color='success'>
-                {start ? <div><FootWorkTimer start={counter}/><Pause/></div> : <Play className='text-success btn-play-icon'/>}
+                {start ? <div ><FootWorkTimer start={counter}/><Pause size={18}/></div> : <Play size={18} className='text-success btn-play-icon'/>}
             </Button>
         </div>
     )
