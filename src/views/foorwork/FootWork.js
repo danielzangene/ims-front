@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react'
 import {ChevronLeft, ChevronRight} from 'react-feather'
 import {Button, Card, CardBody, Col, Row} from 'reactstrap'
-import TimeCard from '../component/footwork/TimeCard'
+import TimeCard from './component/TimeCard'
 import UILoader from '@components/ui-loader'
 import Spinner from '@components/spinner/Loading-spinner'
 import useFetchUrl from "../../utility/UseFetchUrl"
