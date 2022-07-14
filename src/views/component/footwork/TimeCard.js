@@ -1,17 +1,15 @@
-import {useEffect, useState} from 'react'
-import {Minus, Plus, Pause} from 'react-feather'
-import {Button, CardBody, Col, Form, Input, Label, Modal, ModalBody, ModalHeader, Row} from 'reactstrap'
+import {useState} from 'react'
+import {Minus, Plus} from 'react-feather'
+import {Button, CardBody, Col, Form, Input, Label, Modal, ModalBody, ModalHeader, Row, Spinner} from 'reactstrap'
 import InputNumber from 'rc-input-number'
 import netConfig from '@configs/netConfig'
 import UILoader from '@components/ui-loader'
-import Spinner from '@components/spinner/Loading-spinner'
 import {showErrorToast, showSuccessToast} from '@toastUtils'
 import '@styles/react/libs/input-number/input-number.scss'
 import TimeCardLog from "./TimeCardLog"
 import useFetchUrl from "../../../utility/UseFetchUrl"
 import {addStr} from '@utils'
 import {animated, useSpring} from 'react-spring'
-import FootWorkTimer from "@layouts/components/navbar/FootWorkTimer"
 
 const TimeCard = (props) => {
 
@@ -23,9 +21,6 @@ const TimeCard = (props) => {
     const [blockWindow, setBlockWindow] = useState(false)
     const [blockCard, setBlockCard] = useState(false)
     const [id, setId] = useState(null)
-    const [activeCounter, setActiveCounter] = useState(false)
-    const [counter, setCounter] = useState(-1)
-    const [addBtnClass, setAddBtnClass] = useState('round waves-effect')
 
     const [min, setMin] = useState()
     const [hour, setHour] = useState()
@@ -108,25 +103,6 @@ const TimeCard = (props) => {
         setBlockWindow(false)
     }
 
-    const getSeconds = (hours, minutes) => {
-        return (hours * 60 * 60) + (minutes * 60)
-    }
-
-    useEffect(async () => {
-        if (data && today && data.footWorks.length % 2 !== 0 && data.footWorks.length !== 0) {
-            const res = await useFetchUrl("/api/v1/personnel/footwork/day/total", "PATCH", null)
-            if (res.resultData && res.resultData.isCounting) {
-                const h = parseInt(res.resultData.totalDay.substring(0, 2))
-                const m = parseInt(res.resultData.totalDay.substring(2, 4))
-                const sec = getSeconds(h, m)
-                setCounter(sec)
-                setAddBtnClass('flat-success round btn btn-outline-warning mt-1 btn-icon')
-                setActiveCounter(true)
-            }
-        }
-    }, [data])
-
-
     return (
         <animated.div style={styles}>
             <CardBody className='time-card-body'>
@@ -147,10 +123,18 @@ const TimeCard = (props) => {
                         </div>
                     ))}
                 </div>
+                {today && data.footWorks.length % 2 !== 0 && data.footWorks.length !== 0 &&
+                    <div className="d-flex justify-content-center mt-1 opacity-25">
+                        <div className="loading">
+                            <div className="loading-dot"></div>
+                            <div className="loading-dot"></div>
+                            <div className="loading-dot"></div>
+                        </div>
+                    </div>
+                }
                 <div className='d-grid my-1'>
-                    <Button color='flat-success' className={`${addBtnClass}`} onClick={addNewLogWindow}>
-                        {!activeCounter && <Plus size={14}/>}
-                        {activeCounter &&  <div ><FootWorkTimer start={counter}/></div>}
+                    <Button color='flat-success' className='round waves-effect' onClick={addNewLogWindow}>
+                        <Plus size={14}/>
                     </Button>
                 </div>
             </CardBody>
