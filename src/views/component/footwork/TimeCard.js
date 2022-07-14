@@ -10,6 +10,7 @@ import '@styles/react/libs/input-number/input-number.scss'
 import TimeCardLog from "./TimeCardLog"
 import useFetchUrl from "../../../utility/UseFetchUrl"
 import {addStr} from '@utils'
+import { useSpring, animated } from 'react-spring'
 
 const TimeCard = (props) => {
 
@@ -28,6 +29,14 @@ const TimeCard = (props) => {
     const [formattedDate] = useState(data.formattedDate)
 
     const log = {hour, min, desc}
+    const styles = useSpring({
+        from: {
+            opacity: 0
+        },
+        to: {
+            opacity: 1
+        }
+    })
 
     function addNewLogWindow() {
         setId(null)
@@ -96,7 +105,7 @@ const TimeCard = (props) => {
     }
 
     return (
-        <Fragment>
+        <animated.div style={styles}>
             <CardBody className='time-card-body'>
                 <UILoader blocking={blockCard}>
                     <div
@@ -178,7 +187,7 @@ const TimeCard = (props) => {
                     </ModalBody>
                 </UILoader>
             </Modal>
-        </Fragment>
+        </animated.div>
     )
 }
 
