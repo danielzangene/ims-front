@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+
     "@casl/ability": "^5.2.2",
     "@casl/react": "^2.1.1",
     "@craco/craco": "^6.4.2",
