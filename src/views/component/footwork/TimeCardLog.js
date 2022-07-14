@@ -33,7 +33,7 @@ const TimeCardLog = ({data, index, logActions}) => {
                     <UncontrolledPopover
                         trigger='focus'
                         isOpen={popoverOpen}
-                        placement='bottom'
+                        placement='top'
                         target={`logtime-${data.time}${data.id}`}>
                         <PopoverHeader>شرح کارکرد</PopoverHeader>
                         <PopoverBody>
