@@ -147,7 +147,7 @@ const TimeCard = (props) => {
                         </div>
                     ))}
                 </div>
-                <div className='d-grid'>
+                <div className='d-grid my-1'>
                     <Button color='flat-success' className={`${addBtnClass}`} onClick={addNewLogWindow}>
                         {!activeCounter && <Plus size={14}/>}
                         {activeCounter &&  <div ><FootWorkTimer start={counter}/></div>}
