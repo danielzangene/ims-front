@@ -14,9 +14,13 @@ const UseFetchUrl = async (uri, requestMethod, requestBody) => {
     }
     const data = await fetch(netConfig.baseUrl + uri, initRequest)
         .then(res => {
-            return res.json()
+            if (res.ok) return res.json()
+            throw new Error('can not connect')
         }).then(res => {
             return res
+        }).catch((error) => {
+            console.log(error)
+            return {code: 500, message:'خطا در فراخوانی سرویس، خواهشمندیم دوباره تلاش کنید.'}
         })
 
     if (data.code === netConfig.unauthorizedStatus) logoutHandler(data.message)

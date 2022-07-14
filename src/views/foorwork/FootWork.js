@@ -8,7 +8,8 @@ import useFetchUrl from "../../utility/UseFetchUrl"
 import netConfig from '@configs/netConfig'
 import {useStartDay} from "@startUtils"
 import {addStr} from '@utils'
-import { useSpring, animated } from 'react-spring'
+import {animated, useSpring} from 'react-spring'
+import {showErrorToast} from "../../utility/ToastUtils"
 
 const FootWork = (isVisible) => {
 
@@ -62,10 +63,14 @@ const FootWork = (isVisible) => {
 
     useEffect(async () => {
             const d = await useFetchUrl("/api/v1/personnel/footwork/week", "PATCH", requestBody)
-            setData(d)
-            setTimeSheet(d.resultData.timeSheet)
-            setTotalWeek(d.resultData.totalWeek)
-            setToday(d.resultData.toDay)
+            if (netConfig.okStatus === d.code) {
+                setData(d)
+                setTimeSheet(d.resultData && d.resultData.timeSheet)
+                setTotalWeek(d.resultData && d.resultData.totalWeek)
+                setToday(d.resultData && d.resultData.toDay)
+            } else {
+                showErrorToast(d.message)
+            }
         }, []
     )
 
@@ -73,39 +78,40 @@ const FootWork = (isVisible) => {
         <Card className='foot-work'>
             <UILoader blocking={!data} loader={<Spinner/>}>
                 <animated.div style={styles}>
-                <CardBody className='pb-0'>
-                    {data &&
+                    <CardBody className='pb-0'>
+                        {data &&
+                            <Row>
+                                <Col className='col-2'>
+                                    <Button className='btn-icon rounded-circle' color='flat-primary'
+                                            onClick={previousWeek}>
+                                        <ChevronRight size={24}/>
+                                    </Button>
+                                </Col>
+                                <Col className='col-8 my-auto text-center align-middle'>
+                                    <div>
+                                        <h6>{totalWeek && `جمع هفته    |    ${addStr(totalWeek, 2, ":")}`}</h6>
+                                        <small
+                                            className='text-muted'>{data && data.resultData && data.resultData.fromTo}</small>
+                                    </div>
+                                </Col>
+                                <Col className='text-end col-2'>
+                                    <Button className='btn-icon rounded-circle' color='flat-primary' onClick={nextWeek}>
+                                        <ChevronLeft size={24}/>
+                                    </Button>
+                                </Col>
+                            </Row>
+                        }
+                    </CardBody>
+                    <CardBody className='foot-work-week-sheet'>
                         <Row>
-                            <Col className='col-2'>
-                                <Button className='btn-icon rounded-circle' color='flat-primary'
-                                        onClick={previousWeek}>
-                                    <ChevronRight size={24}/>
-                                </Button>
-                            </Col>
-                            <Col className='col-8 my-auto text-center align-middle'>
-                                <div>
-                                    <h6>{totalWeek && `جمع هفته    |    ${addStr(totalWeek, 2, ":")}`}</h6>
-                                    <small className='text-muted'>{data && data.resultData.fromTo}</small>
-                                </div>
-                            </Col>
-                            <Col className='text-end col-2'>
-                                <Button className='btn-icon rounded-circle' color='flat-primary' onClick={nextWeek}>
-                                    <ChevronLeft size={24}/>
-                                </Button>
-                            </Col>
+                            {timeSheet && timeSheet.map((item) => (
+                                <Col key={item && `day-${item.date}${Math.floor(Math.random() * 100)}`}>
+                                    <TimeCard data={item && item} today={item.date === today}
+                                              refreshToDay={refreshToDay} refresh={refresh}/>
+                                </Col>
+                            ))}
                         </Row>
-                    }
-                </CardBody>
-                <CardBody className='foot-work-week-sheet'>
-                    <Row>
-                        {timeSheet && timeSheet.map((item) => (
-                            <Col key={item && `day-${item.date}${Math.floor(Math.random() * 100)}`}>
-                                <TimeCard data={item && item} today={item.date === today}
-                                          refreshToDay={refreshToDay} refresh={refresh}/>
-                            </Col>
-                        ))}
-                    </Row>
-                </CardBody>
+                    </CardBody>
                 </animated.div>
             </UILoader>
         </Card>

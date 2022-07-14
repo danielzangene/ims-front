@@ -19,7 +19,8 @@ const useFetch = (uri, requestMethod, requestBody) => {
         setTimeout(() => {
             fetch(netConfig.baseUrl + uri, initRequest)
                 .then(res => {
-                    return res.json()
+                    if (res.ok) return res.json()
+                    throw new Error('can not connect')
                 })
                 .then(data => {
                     if (data.code === netConfig.unauthorizedStatus) {
@@ -27,7 +28,10 @@ const useFetch = (uri, requestMethod, requestBody) => {
                     } else {
                         setData(data)
                     }
-                })
+                }).catch((error) => {
+                console.log(error)
+                return {code: 500, message:'خطا در فراخوانی سرویس، خواهشمندیم دوباره تلاش کنید.'}
+            })
         }, 3000)
         return () => abortCont.abort()
     }, [uri])

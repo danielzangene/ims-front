@@ -1,7 +1,7 @@
 import {toast} from "react-toastify"
 
 export const showErrorToast = (message) => {
-    const pos = window.innerWidth > 1024 ? 'top-right' : 'bottom-right'
+    const pos = window.innerWidth > 1024 ? 'top-right' : 'bottom-center'
     toast.error(message, {
         position: pos,
         pauseOnHover: true,
@@ -11,7 +11,7 @@ export const showErrorToast = (message) => {
 }
 
 export const showSuccessToast = (message) => {
-    const pos = window.innerWidth > 1024 ? 'top-right' : 'bottom-right'
+    const pos = window.innerWidth > 1024 ? 'top-right' : 'bottom-center'
     toast.success(message, {
         position: pos,
         pauseOnHover: true,
