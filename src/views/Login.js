@@ -7,7 +7,7 @@ import {toast} from "react-toastify"
 
 import UseFetchUrl from "../utility/UseFetchUrl"
 
-// import netConfig from "../configs/netConfig"
+import netConfig from "../configs/netConfig"
 
 const LoginCover = () => {
     const {skin} = useSkin()
@@ -22,11 +22,11 @@ const LoginCover = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
-    // const body = {username, password}
+    const body = {username, password}
 
     const [isPending, setIsPending] = useState(false)
 
-    const [errors] = useState({
+    const [errors, setErrors] = useState({
         password: {
             is: false,
             message: "لطفا رمزعبور را وارد کنید"
@@ -52,44 +52,43 @@ const LoginCover = () => {
         }
     }, [queryMessage])
 
-    // const validationCheck = () => {
-    //     let result = true
-    //     const newErrors = {...errors}
-    //
-    //     if (password.length === 0) {
-    //         newErrors.password.is = true
-    //         result = false
-    //     } else {
-    //         newErrors.password.is = false
-    //     }
-    //     if (username.length === 0) {
-    //         newErrors.username.is = true
-    //         result = false
-    //     } else {
-    //         newErrors.username.is = false
-    //     }
-    //
-    //     setErrors(newErrors)
-    //
-    //     return result
-    // }
+    const validationCheck = () => {
+        let result = true
+        const newErrors = {...errors}
 
-    const callBack = () => {
-        // if (data.code !== netConfig.okStatus) {
-        //     showErrorToast(data.message)
-        // } else if (data) {
-        //     if (data.resultData)
-                localStorage.setItem("accessToken", "eyJhbGciOiJIUzUxMiJ9.eyJlbWFpbCI6InphbmdlbmVAZ21haWwuY29tIiwidXNlcm5hbWUiOiJkYW4iLCJzdWIiOiJkYW4iLCJpYXQiOjE2NTc4MjY5NzksImV4cCI6MTY1ODgyNjk3OX0.aqASDUedJAYq5S70SaGAYiLzbo-Lp_ZY91XW9sZMFFehZFLvScZkrpGkwvlY6km8DEe2EMo7gwqd4Mdx-lXcBg")
+        if (password.length === 0) {
+            newErrors.password.is = true
+            result = false
+        } else {
+            newErrors.password.is = false
+        }
+        if (username.length === 0) {
+            newErrors.username.is = true
+            result = false
+        } else {
+            newErrors.username.is = false
+        }
+
+        setErrors(newErrors)
+
+        return result
+    }
+
+    const callBack = (data) => {
+        if (data.code !== netConfig.okStatus) {
+            showErrorToast(data.message)
+        } else if (data) {
+            if (data.resultData) localStorage.setItem("accessToken", data.resultData.token)
             history.push('/home')
-        // }
+        }
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        // if (!validationCheck()) return
+        if (!validationCheck()) return
         setIsPending(true)
-        // const data = await UseFetchUrl("/api/auth/signin", "POST", body)
-        callBack()
+        const data = await UseFetchUrl("/api/auth/signin", "POST", body)
+        callBack(data)
         setIsPending(false)
     }
 

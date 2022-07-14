@@ -66,7 +66,7 @@ const StartFootWorkLog = () => {
     }
 
     useEffect(async () => {
-            // await refresh()
+            await refresh()
         }, []
     )
 
