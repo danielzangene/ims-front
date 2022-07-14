@@ -1,6 +1,5 @@
 import {useSkin} from '@hooks/useSkin'
 import {Link, useHistory} from 'react-router-dom'
-import InputPasswordToggle from '@components/input-password-toggle'
 import {Button, CardTitle, Col, Form, FormFeedback, Input, Label, Row} from 'reactstrap'
 import '@styles/react/pages/page-authentication.scss'
 import {useEffect, useState} from 'react'

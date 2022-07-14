@@ -2,22 +2,29 @@ import {Fragment, useState} from 'react'
 import {Minus, Plus} from 'react-feather'
 import {Button, CardBody, Col, Form, Input, Label, Modal, ModalBody, ModalHeader, Row} from 'reactstrap'
 import InputNumber from 'rc-input-number'
+import netConfig from '@configs/netConfig'
 import UILoader from '@components/ui-loader'
 import Spinner from '@components/spinner/Loading-spinner'
+import {showErrorToast, showSuccessToast} from '@toastUtils'
 import '@styles/react/libs/input-number/input-number.scss'
 import TimeCardLog from "./TimeCardLog"
+import useFetchUrl from "../../../utility/UseFetchUrl"
+import {addStr} from '@utils'
 
-const TimeCard = ({data}) => {
+const TimeCard = (props) => {
+
+    const {data, today, refreshToDay, refresh} = props
+
     const [show, setShow] = useState(false)
-    const [timeData, setTimeDate] = useState({...data})
+
+    const [timeData] = useState({...data})
     const [blockWindow, setBlockWindow] = useState(false)
     const [blockCard, setBlockCard] = useState(false)
-
     const [id, setId] = useState(null)
+
     const [min, setMin] = useState()
     const [hour, setHour] = useState()
     const [desc, setDesc] = useState()
-
     const [formattedDate] = useState(data.formattedDate)
 
     const log = {hour, min, desc}
@@ -39,18 +46,25 @@ const TimeCard = ({data}) => {
     }
 
     const editFootLog = logId => {
-        const targetLog = timeData.footWork.find(l => l.id === logId)
-        const splittedTime = targetLog.log.split(":")
-        editLogWindow(logId, parseInt(splittedTime[0]), parseInt(splittedTime[1]), targetLog.desc)
+        const targetLog = timeData.footWorks.find(l => l.id === logId)
+        editLogWindow(logId, parseInt(targetLog.time.substring(0, 2)), parseInt(targetLog.time.substring(2, 4)), targetLog.desc)
     }
 
-    const deleteFootLog = id => {
+    const deleteFootLog = async logId => {
         setBlockCard(true)
-        setTimeout(function () {
-            setBlockCard(false)
-            timeData.footWork = timeData.footWork.filter(log => log.id !== id)
-            setTimeDate({...timeData})
-        }, 1000)
+        const res = await useFetchUrl("/api/v1/personnel/footwork/log", "delete", {id: logId})
+        if (res.code === netConfig.okStatus) {
+            timeData.footWorks = res.resultData.footWorks
+            timeData.totalDay = res.resultData.totalDay
+            showSuccessToast(res.message)
+            setShow(false)
+            refresh()
+            refreshToDay(today)
+        } else {
+            showErrorToast(res.message)
+        }
+        setBlockCard(false)
+
     }
 
     const logActions = {
@@ -58,43 +72,45 @@ const TimeCard = ({data}) => {
         editLog: editFootLog
     }
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault()
         setBlockWindow(true)
-        // fetch
-        // spinner
-        //cancel disable
-        // toast
-        //
-        setTimeout(function () {
-            setBlockWindow(false)
-            setShow(false)
-        }, 1000)
         const footLog = {
-            id: id ? id : Math.floor(Math.random() * 10000),
-            log: `${String(log.hour).padStart(2, '0')}:${String(log.min).padStart(2, '0')}`,
+            id: id ? id : null,
+            date: timeData.date,
+            time: `${String(log.hour).padStart(2, '0')}${String(log.min).padStart(2, '0')}`,
             desc: log.desc
         }
-        let footWork = id ? timeData.footWork.filter(log => log.id !== id) : timeData.footWork
-        footWork = [...footWork, footLog]
-        timeData.footWork = [...footWork]
+        const res = await useFetchUrl("/api/v1/personnel/footwork/log", "POST", footLog)
+        if (res.code === netConfig.okStatus) {
+            timeData.footWorks = res.resultData.footWorks
+            timeData.totalDay = res.resultData.totalDay
+            showSuccessToast(res.message)
+            setShow(false)
+            refresh()
+            refreshToDay(today)
+        } else {
+            showErrorToast(res.message)
+        }
+        setBlockWindow(false)
     }
 
     return (
         <Fragment>
             <CardBody className='time-card-body'>
                 <UILoader blocking={blockCard}>
-                <div
-                    className={timeData && timeData.off ? 'text-center time-card-header bg-light-danger rounded' : 'text-center bg-text-center time-card-header bg-light-primary rounded'}>
-                    <div>
-                        <p className='text-dark'>{formattedDate}</p>
-                        <small className='text-muted'>{timeData && timeData.workTime}</small>
+                    <div
+                        className={timeData && timeData.off ? 'text-center time-card-header bg-light-danger rounded' : 'text-center bg-text-center time-card-header bg-light-primary rounded'}>
+                        <div>
+                            <small className='text-dark'>{formattedDate}</small>
+                            <br/>
+                            <small className='text-muted'>{timeData && addStr(timeData.totalDay, 2, ":")}</small>
+                        </div>
                     </div>
-                </div>
                 </UILoader>
                 <div className='foot-work-details'>
-                    {timeData && timeData.footWork && timeData.footWork.map((item, index) => (
-                        <div key={item && `log-${item.log}`}>
+                    {timeData && timeData.footWorks && timeData.footWorks.map((item, index) => (
+                        <div key={item && `log-${item.time}${item.id}`}>
                             <TimeCardLog data={item} index={index} logActions={logActions}/>
                         </div>
                     ))}
@@ -140,7 +156,7 @@ const TimeCard = ({data}) => {
                                 <Input type='textarea' name='desc'
                                        onChange={(e) => setDesc(e.target.value)}
                                        rows='3'
-                                       maxLength={10}
+                                       maxLength={250}
                                        defaultValue={desc && desc}
                                        placeholder='شرح کارکرد'/>
                             </Row>

@@ -103,3 +103,7 @@ export const selectThemeColors = theme => ({
     neutral30: '#ededed' // for input hover border-color
   }
 })
+
+export const addStr = (str, index, stringToAdd) => {
+  return str.substring(0, index) + stringToAdd + str.substring(index, str.length)
+}

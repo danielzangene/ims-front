@@ -4,184 +4,63 @@ import {Button, Card, CardBody, Col, Row} from 'reactstrap'
 import TimeCard from '../component/footwork/TimeCard'
 import UILoader from '@components/ui-loader'
 import Spinner from '@components/spinner/Loading-spinner'
+import useFetchUrl from "../../utility/UseFetchUrl"
+import netConfig from '@configs/netConfig'
+import {useStartDay} from "@startUtils"
+import {addStr} from '@utils'
 
 const FootWork = () => {
+
     const [data, setData] = useState(null)
+    const [totalWeek, setTotalWeek] = useState(null)
+    const [today, setToday] = useState(null)
+    const [timeSheet, setTimeSheet] = useState(null)
+    const [weekOfToday, setWeekOfToday] = useState(0)
+    const requestBody = {weekOfToday}
 
-    const refresh = () => {
-        const oldData = data
-        console.log(oldData)
+    const refresh = async () => {
+        // data.resultData.timeSheet = null
+        const d = await useFetchUrl("/api/v1/personnel/footwork/week", "PATCH", requestBody)
+        console.log(d)
+        if (d.code === netConfig.okStatus) {
+            setTimeSheet(d.resultData.timeSheet)
+            setTotalWeek(d.resultData.totalWeek)
+        }
+    }
+
+    const useStart = useStartDay('FootWork', refresh)
+
+    const refreshToDay = (today) => {
+        if (today) useStart.refresh('FootWork')
+    }
+
+    const nextWeek = async () => {
         setData(null)
-        setTimeout(function () {
-            data.totalWeek = '05:55'
-            setData(JSON.parse(JSON.stringify(data)))
-        }, 2000)
+        const page = weekOfToday + 1
+        setWeekOfToday(page)
+        const d = await useFetchUrl("/api/v1/personnel/footwork/week", "PATCH", {weekOfToday: page})
+        setData(d)
+        setTimeSheet(d.resultData.timeSheet)
+        setTotalWeek(d.resultData.totalWeek)
     }
 
-    const nextWeek = () => {
-        refresh()
+    const previousWeek = async () => {
+        setData(null)
+        const page = weekOfToday - 1
+        setWeekOfToday(page)
+        const d = await useFetchUrl("/api/v1/personnel/footwork/week", "PATCH", {weekOfToday: page})
+        setData(d)
+        setTimeSheet(d.resultData.timeSheet)
+        setTotalWeek(d.resultData.totalWeek)
+
     }
 
-    const previousWeek = () => {
-        refresh()
-    }
-
-    useEffect(() => {
-            const d = {
-                toDay: '1401/04/15',
-                firstDayOfWeek: '1401/04/15',
-                totalMonth: '12:20',
-                totalWeek: '05:00',
-                persianMonth: 'تیر',
-                fromTo: '11 تا 17 تیر',
-                timeSheet: [
-                    {
-                        id: 1,
-                        date: '1401/04/11',
-                        workTime: '00:00',
-                        formattedDate: 'شنبه 11 تیر',
-                        off: false,
-                        footWork: [
-                            {
-                                id: 15,
-                                log: '08:30',
-                                desc: 'desc'
-                            },
-                            {
-                                id: 16,
-                                log: '12:30',
-                                desc: 'desc'
-                            },
-                            {
-                                id: 17,
-                                log: '13:40',
-                                desc: 'desc'
-                            },
-                            {
-                                id: 18,
-                                log: '18:30',
-                                desc: 'desc'
-                            }
-                        ]
-                    },
-                    {
-                        date: '1401/04/12',
-                        workTime: '00:00',
-                        formattedDate: 'یک‌شنبه 12 تیر',
-                        off: false,
-                        footWork: [
-                            {
-                                id: 1,
-                                log: '08:31',
-                                desc: 'desc'
-                            },
-                            {
-                                id: 2,
-                                log: '12:31',
-                                desc: 'desc'
-                            },
-                            {
-                                id: 3,
-                                log: '13:41',
-                                desc: 'desc'
-                            },
-                            {
-                                id: 5,
-                                log: '14:51',
-                                desc: 'desc'
-                            },
-                            {
-                                id: 4,
-                                log: '14:11',
-                                desc: 'desc'
-                            }
-                        ]
-                    },
-                    {
-                        date: '1401/04/13',
-                        workTime: '00:00',
-                        formattedDate: 'دوشنبه 13 تیر',
-                        off: true,
-                        footWork: [
-                            {
-                                id: 7,
-                                log: '08:00',
-                                desc: 'desc'
-                            },
-                            {
-                                id: 8,
-                                log: '17:30',
-                                desc: 'desc'
-                            }
-                        ]
-                    },
-                    {
-                        date: '1401/04/14',
-                        workTime: '00:00',
-                        formattedDate: 'سه‌شنبه 13 تیر',
-                        off: false,
-                        footWork: [
-                            {
-                                id: 9,
-                                log: '09:11',
-                                desc: 'desc'
-                            },
-                            {
-                                id: 10,
-                                log: '17:31',
-                                desc: 'desc'
-                            }
-                        ]
-                    },
-                    {
-                        date: '1401/04/15',
-                        workTime: '00:00',
-                        formattedDate: 'چهارشنبه 14 تیر',
-                        off: false,
-                        footWork: [
-                            {
-                                id: 11,
-                                log: '08:32',
-                                desc: 'desc'
-                            },
-                            {
-                                id: 12,
-                                log: '18:05',
-                                desc: 'desc'
-                            }
-                        ]
-                    },
-                    {
-                        date: '1401/04/16',
-                        workTime: '00:00',
-                        formattedDate: 'پنج‌شنبه 15 تیر',
-                        off: false,
-                        footWork: [
-                            {
-                                id: 13,
-                                log: '08:33',
-                                desc: 'desc'
-                            },
-                            {
-                                id: 14,
-                                log: '12:35',
-                                desc: 'desc'
-                            }
-                        ]
-                    },
-                    {
-                        date: '1401/04/17',
-                        workTime: '00: 00',
-                        formattedDate: 'جمعه 16 تیر',
-                        off: true,
-                        footWork: []
-                    }
-                ]
-            }
-            setTimeout(function () {
-                setData(d)
-            }, 1000)
-
+    useEffect(async () => {
+            const d = await useFetchUrl("/api/v1/personnel/footwork/week", "PATCH", requestBody)
+            setData(d)
+            setTimeSheet(d.resultData.timeSheet)
+            setTotalWeek(d.resultData.totalWeek)
+            setToday(d.resultData.toDay)
         }, []
     )
 
@@ -197,28 +76,14 @@ const FootWork = () => {
                                         color='flat-primary'>
                                     <RefreshCcw size={25}/>
                                 </Button>
-
                             </Col>
-                            <Col lg='6' md='8' sm='12'>
+                            <Col lg='6' md='8' sm='12' className='my-auto'>
                                 <Row>
-                                    <Col className='text-end vertical-divider-left'>
-                                        <div className='text-end'>
-                                            <div>
-                                                <h6>جمع هفته</h6>
-                                                <small className='text-muted'>{data && data.totalWeek}</small>
-                                            </div>
-                                        </div>
+                                    <Col className='text-end vertical-divider-left my-auto'>
+                                        <h6>جمع هفته</h6>
                                     </Col>
-
-                                    <Col>
-                                        <div>
-                                            <div>
-                                                <h6>جمع کل <small
-                                                    className='text-muted pl-1'>( {data && data.persianMonth} ماه
-                                                    )</small></h6>
-                                                <small className='text-muted'>{data && data.totalMonth}</small>
-                                            </div>
-                                        </div>
+                                    <Col className='my-auto'>
+                                        <h6>{totalWeek && addStr(totalWeek, 2, ":")}</h6>
                                     </Col>
                                 </Row>
                             </Col>
@@ -227,7 +92,7 @@ const FootWork = () => {
                                         onClick={previousWeek}>
                                     <ChevronRight size={24}/>
                                 </Button>
-                                {data && data.fromTo}
+                                {data && data.resultData && data.resultData.fromTo}
                                 <Button className='btn-icon rounded-circle' color='flat-primary' onClick={nextWeek}>
                                     <ChevronLeft size={24}/>
                                 </Button>
@@ -237,9 +102,10 @@ const FootWork = () => {
                 </CardBody>
                 <CardBody className='foot-work-week-sheet'>
                     <Row>
-                        {data && data.timeSheet.map((item) => (
+                        {timeSheet && timeSheet.map((item) => (
                             <Col key={item && `day-${item.date}${Math.floor(Math.random() * 100)}`}>
-                                <TimeCard data={item && item} isToDay={item.date === data.toDay}/>
+                                <TimeCard data={item && item} today={item.date === today}
+                                          refreshToDay={refreshToDay} refresh={refresh}/>
                             </Col>
                         ))}
                     </Row>

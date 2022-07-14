@@ -12,7 +12,7 @@ import { NavItem, NavLink } from 'reactstrap'
 
 const ThemeNavbar = props => {
   // ** Props
-  const { skin, setSkin, setMenuVisibility } = props
+  const { setMenuVisibility } = props
 
   return (
     <Fragment>
@@ -23,7 +23,7 @@ const ThemeNavbar = props => {
           </NavLink>
         </NavItem>
       </ul>
-      <NavbarUser skin={skin} setSkin={setSkin} />
+      <NavbarUser/>
     </Fragment>
   )
 }
