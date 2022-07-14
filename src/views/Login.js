@@ -3,7 +3,7 @@ import {Link, useHistory} from 'react-router-dom'
 import {Button, CardTitle, Col, Form, FormFeedback, Input, Label, Row} from 'reactstrap'
 import '@styles/react/pages/page-authentication.scss'
 import {useEffect, useState} from 'react'
-import {toast} from "react-toastify"
+import {showErrorToast} from "../../utility/ToastUtils"
 
 import UseFetchUrl from "../utility/UseFetchUrl"
 
@@ -36,15 +36,6 @@ const LoginCover = () => {
             message: "لطفا نام کاربری را وارد کنید"
         }
     })
-
-    function showErrorToast(message) {
-        toast.error(message, {
-            position: "top-left",
-            pauseOnHover: true,
-            draggable: false,
-            progress: undefined
-        })
-    }
 
     useEffect(() => {
         if (queryMessage) {
