@@ -13,7 +13,7 @@ const StartFootWorkLog = () => {
 
     const [start, setStart] = useState(false)
     const [counter, setCounter] = useState(-1)
-    const [buttonClassNames, setButtonClassNames] = useState('rounded-circle waves-effect btn btn-outline-success')
+    const [buttonClassNames, setButtonClassNames] = useState('rounded-circle waves-effect btn btn-outline-secondary')
 
     const getSeconds = (hours, minutes) => {
         return (hours * 60 * 60) + (minutes * 60)
@@ -29,7 +29,7 @@ const StartFootWorkLog = () => {
             const sec = getSeconds(h, m)
             setCounter(sec)
         } else {
-            setButtonClassNames(('rounded-circle waves-effect btn btn-outline-success'))
+            setButtonClassNames(('rounded-circle waves-effect btn btn-outline-secondary'))
             setStart(false)
         }
     }
@@ -53,7 +53,7 @@ const StartFootWorkLog = () => {
         } else {
             if (res.code === netConfig.okStatus) {
                 setStart(false)
-                setButtonClassNames(('rounded-circle waves-effect btn btn-outline-success'))
+                setButtonClassNames(('rounded-circle waves-effect btn btn-outline-secondary'))
                 showSuccessToast("پایان")
                 document.title = netConfig.app.appName
                 useStart.refresh('StartFootWorkLog')
@@ -72,8 +72,8 @@ const StartFootWorkLog = () => {
 
     return (
         <div onClick={startCounting} className='px-1'>
-            <Button className={`btn-icon ${buttonClassNames}`} outline color='success'>
-                {start ? <div ><FootWorkTimer start={counter}/><Pause size={18}/></div> : <Play size={18} className='text-success btn-play-icon'/>}
+            <Button className={`btn-icon ${buttonClassNames}`} outline>
+                {start ? <div ><FootWorkTimer start={counter}/><Pause size={18}/></div> : <Play size={18} className='btn-play-icon'/>}
             </Button>
         </div>
     )
