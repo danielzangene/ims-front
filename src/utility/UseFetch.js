@@ -20,9 +20,11 @@ const useFetch = (uri, requestMethod, requestBody) => {
             fetch(netConfig.baseUrl + uri, initRequest)
                 .then(res => {
                     if (res.ok) return res.json()
+                    if (res.status === netConfig.okStatus) return res.json()
                     throw new Error('can not connect')
                 })
                 .then(data => {
+                    console.log(data)
                     if (data.code === netConfig.unauthorizedStatus) {
                         logoutHandler(data.message)
                     } else {

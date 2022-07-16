@@ -71,7 +71,7 @@ const MonthAllDayChart = (isVisible) => {
                     fontSize: '1rem'
                 },
                 formatter(val) {
-                    return val < 999 ? addStr(`0${val}`, 2, ":") : addStr(`${val}`, 2, ":")
+                    return val === 0 ? '' : val < 999 ? addStr(`0${val}`, 2, ":") : addStr(`${val}`, 2, ":")
                 }
             }
         },
@@ -93,7 +93,7 @@ const MonthAllDayChart = (isVisible) => {
         setData(d)
     }
 
-    const useStart = useStartDay('MonthSummaryCard', refresh)
+    useStartDay('MonthSummaryCard', refresh)
 
 
     const styles = useSpring({
@@ -103,7 +103,6 @@ const MonthAllDayChart = (isVisible) => {
 
     useEffect(async () => {
         await refresh()
-        console.log(useStart)
     }, [])
 
     return (
@@ -112,7 +111,8 @@ const MonthAllDayChart = (isVisible) => {
                 <animated.div style={styles}>
                     <CardBody>
                         {data && data.resultData &&
-                            <Chart className='mt-1 mb-0' options={data && options} series={data && data.resultData.series} type='line'
+                            <Chart className='mt-1 mb-0' options={data && options}
+                                   series={data && data.resultData.series} type='line'
                                    height={330}/>}
                     </CardBody>
                 </animated.div>

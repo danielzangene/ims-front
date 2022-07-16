@@ -43,11 +43,10 @@ const MonthSummaryCard = (isVisible) => {
         setData(await useFetchUrl("/api/v1/personnel/footwork/log/month/summary", "PATCH", null))
     }
 
-    const useStart = useStartDay('MonthSummaryCard', refresh)
+    useStartDay('MonthSummaryCard', refresh)
 
     useEffect(async () => {
         await refresh()
-        console.log(useStart)
     }, [])
 
     const styles = useSpring({

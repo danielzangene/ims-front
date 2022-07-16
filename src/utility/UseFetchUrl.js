@@ -15,6 +15,7 @@ const UseFetchUrl = async (uri, requestMethod, requestBody) => {
     const data = await fetch(netConfig.baseUrl + uri, initRequest)
         .then(res => {
             if (res.ok) return res.json()
+            if (res.status === netConfig.unauthorizedStatus) return res.json()
             throw new Error('can not connect')
         }).then(res => {
             return res

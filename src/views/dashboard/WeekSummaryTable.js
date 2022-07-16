@@ -18,11 +18,10 @@ const WeekSummaryTable = (isVisible) => {
         setData(await useFetchUrl("/api/v1/personnel/footwork/log/week/summary", "PATCH", null))
     }
 
-    const useStart = useStartDay('WeekSummaryTable', refresh)
+    useStartDay('WeekSummaryTable', refresh)
 
     useEffect(async () => {
         await refresh()
-        console.log(useStart)
     }, [])
 
     const styles = useSpring({
