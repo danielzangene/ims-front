@@ -1,188 +1,113 @@
 import {useEffect, useState} from 'react'
-import {Button, Card, Col, Form, Input, Modal, ModalBody, ModalHeader, Row, Table} from 'reactstrap'
+import {Button, Card, Col, Form, Input, Label, Modal, ModalBody, ModalHeader, Row, Table} from 'reactstrap'
 import {Check, Info, Trash, XCircle} from 'react-feather'
 import Spinner from '@components/spinner/Loading-spinner'
 import UILoader from '@components/ui-loader'
 import {addStr} from '@utils'
+import {showErrorToast, showSuccessToast} from '@toastUtils'
+import netConfig from '@configs/netConfig'
+
 import CustomPagination from "../component/CustomPagination"
+import CustomDatePicker from "../component/CustomDatePicker"
+import PickerTime from "../component/PickerTime"
+import useFetchUrl from "../../utility/UseFetchUrl"
 
 const LeaveRequest = () => {
 
     const [data, setData] = useState(null)
     const [show, setShow] = useState(false)
     const [blockWindow, setBlockWindow] = useState(false)
+    const [hourly, setHourly] = useState('false')
 
-    const testdata = [
-        {
-            id: 1,
-            img: require('@src/assets/images/icons/toolbox.svg').default,
-            from: 'شنبه 25 مرداد',
-            to: 'یک‌شنبه 26 مرداد',
-            fromTime: '0830',
-            toTime: '1100',
-            type: 'استحقاقی',
-            reason: 'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد',
-            status: 'ثبت شده',
-            statusCode: 'registered'
-        },
-        {
-            id: 2,
-            img: require('@src/assets/images/icons/toolbox.svg').default,
-            from: 'شنبه 25 مرداد',
-            to: 'یک‌شنبه 26 مرداد',
-            fromTime: '0830',
-            toTime: '1100',
-            type: 'استحقاقی',
-            reason: 'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد',
-            status: 'رد شده',
-            statusCode: 'rejected'
-        },
-        {
-            id: 3,
-            img: require('@src/assets/images/icons/toolbox.svg').default,
-            from: 'شنبه 25 مرداد',
-            to: 'یک‌شنبه 26 مرداد',
-            fromTime: '0830',
-            toTime: '1100',
-            type: 'استحقاقی',
-            reason: 'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد',
-            status: 'نایید شده',
-            statusCode: 'confirmed'
-        },
-        {
-            id: 4,
-            img: require('@src/assets/images/icons/toolbox.svg').default,
-            from: 'شنبه 25 مرداد',
-            to: 'یک‌شنبه 26 مرداد',
-            fromTime: '',
-            toTime: '',
-            type: 'استحقاقی',
-            reason: 'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد',
-            status: 'رد شده',
-            statusCode: 'rejected'
-        },
-        {
-            id: 5,
-            img: require('@src/assets/images/icons/toolbox.svg').default,
-            from: 'شنبه 25 مرداد',
-            to: 'یک‌شنبه 26 مرداد',
-            fromTime: '0830',
-            toTime: '1100',
-            type: 'استحقاقی',
-            reason: 'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد',
-            status: 'نایید شده',
-            statusCode: 'confirmed'
-        },
-        {
-            id: 6,
-            img: require('@src/assets/images/icons/toolbox.svg').default,
-            from: 'شنبه 25 مرداد',
-            to: 'یک‌شنبه 26 مرداد',
-            fromTime: '0830',
-            toTime: '1100',
-            type: 'استحقاقی',
-            reason: 'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد',
-            status: 'ثبت شده',
-            statusCode: 'registered'
-        },
-        {
-            id: 7,
-            img: require('@src/assets/images/icons/toolbox.svg').default,
-            from: 'شنبه 25 مرداد',
-            to: 'جمعه 26 مرداد',
-            fromTime: '0830',
-            toTime: '1100',
-            type: 'استحقاقی',
-            reason: 'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد',
-            status: 'رد شده',
-            statusCode: 'rejected'
-        },
-        {
-            id: 8,
-            img: require('@src/assets/images/icons/toolbox.svg').default,
-            from: 'شنبه 25 مرداد',
-            to: 'سه‌شنبه 26 مرداد',
-            fromTime: '0830',
-            toTime: '1100',
-            type: 'استحقاقی',
-            reason: 'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد',
-            status: 'نایید شده',
-            statusCode: 'confirmed'
-        },
-        {
-            id: 9,
-            img: require('@src/assets/images/icons/toolbox.svg').default,
-            from: 'شنبه 25 مرداد',
-            to: 'دو‌شنبه 26 مرداد',
-            fromTime: '',
-            toTime: '',
-            type: 'استحقاقی',
-            reason: 'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد',
-            status: 'رد شده',
-            statusCode: 'rejected'
-        },
-        {
-            id: 10,
-            img: require('@src/assets/images/icons/toolbox.svg').default,
-            from: 'شنبه 25 مرداد',
-            to: 'شنبه 26 مرداد',
-            fromTime: '0830',
-            toTime: '1100',
-            type: 'استحقاقی',
-            reason: 'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد',
-            status: 'نایید شده',
-            statusCode: 'confirmed'
-        },
-        {
-            id: 11,
-            img: require('@src/assets/images/icons/toolbox.svg').default,
-            from: 'شنبه 25 مرداد',
-            to: 'یک‌شنبه 26 مرداد',
-            type: 'استحقاقی',
-            reason: 'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد',
-            status: 'نایید شده',
-            statusCode: 'confirmed'
-        }
-    ]
+    const [pageNumRequest, setPageNumRequest] = useState(1)
+    const [perPagRequest, setPerPageRequest] = useState(10)
 
-    const onSubmit = () => {
+    const [fromDateRequest, setFromDateRequest] = useState('')
+    const [toDateRequest, setToDateRequest] = useState('')
+    const [fromTimeRequest, setFromTimeRequest] = useState('')
+    const [toTimeRequest, setToTimeRequest] = useState('')
+    const [requestReason, setRequestReason] = useState('')
+    const [requestType, setRequestType] = useState(1)
 
+    const newRequest = {
+        from: fromDateRequest,
+        to: toDateRequest,
+        fromTime: fromTimeRequest,
+        toTime: toTimeRequest,
+        reason: requestReason,
+        type: requestType
     }
-    const search = (pageNum) => {
-        alert(pageNum)
+
+    const pageSearch = {
+        pageNum: pageNumRequest,
+        perPage: perPagRequest
+    }
+
+    const onSubmit = async (e) => {
+        e.preventDefault()
+        setBlockWindow(true)
+        console.log(newRequest)
+        const res = await useFetchUrl("/api/v1/personnel/leave/log", "POST", newRequest)
+        if (res.code === netConfig.okStatus) {
+            showSuccessToast(res.message)
+            setShow(false)
+        } else {
+            showErrorToast(res.message)
+        }
         setBlockWindow(false)
     }
+
+    const refresh = async (currentPage, maxPageSize) => {
+        pageSearch.pageNum = currentPage
+        pageSearch.perPage = maxPageSize
+        const d = await useFetchUrl("/api/v1/personnel/leave/all", "PATCH", pageSearch)
+        console.log(d)
+        setData(d)
+    }
+
+    const deleteRequest = async (requestId) => {
+        const res = await useFetchUrl("/api/v1/personnel/leave/log", "DELETE", {id: requestId})
+        if (res.code === netConfig.okStatus) {
+            showSuccessToast(res.message)
+            await refresh(pageNumRequest, perPagRequest)
+        } else {
+            showErrorToast(res.message)
+        }
+    }
+
+    const search = async (pageNum) => {
+        setPageNumRequest(pageNum)
+        setData(null)
+        await refresh(pageNum, perPagRequest)
+    }
     const selectOptions = ['10', '25', '50']
-    const perPage = '25'
 
     const statusIcon = {
-        rejected: <XCircle className='text-danger'/>,
-        confirmed: <Check className='text-success'/>,
-        registered: <Info className='text-warning'/>
+        REJECTED_REQUEST_STATUS: <XCircle className='text-danger'/>,
+        CONFIRMED_REQUEST_STATUS: <Check className='text-success'/>,
+        REGISTERED_REQUEST_STATUS: <Info className='text-warning'/>
     }
 
     useEffect(async () => {
-        setTimeout(() => {
-            setData(testdata)
-        }, 3000)
+        await refresh(pageNumRequest, perPagRequest)
     }, [])
 
     const renderData = () => {
-        return data.map((item) => {
-
+        console.log("test")
+        return data.resultData.requests.map((item) => {
             return (
-                <tr key={item.id} title={item.stat}>
+                <tr key={item.id}>
                     <td className='pe-0'>
-                        {'registered' === item.statusCode &&
+                        {item.canDelete &&
                             <Button color='flat-danger' className='ps-0 opacity-50' onClick={() => {
-                                alert(item.id)
+                                deleteRequest(item.id)
                             }}>
                                 <Trash/>
                             </Button>
                         }
                     </td>
                     <td className='px-1'>
-                        {statusIcon[item.statusCode]}
+                        {statusIcon[item.status.code]}
                     </td>
                     <td className='text-nowrap ps-0'>
                         <div className='d-flex align-items-center'>
@@ -204,7 +129,7 @@ const LeaveRequest = () => {
                     </td>
                     <td className='text-nowrap'>
                         <div className='d-flex flex-column'>
-                            {item.type && item.type}
+                            {item.type && item.type.name}
                         </div>
                     </td>
                     <td colSpan={2} className='text-nowrap'>
@@ -238,8 +163,11 @@ const LeaveRequest = () => {
                                     <th className='align-middle'>علت</th>
                                     <th className='align-middle'>
                                         <Input type="select"
-                                               value={perPage}
-                                            // onChange={pageCount}
+                                               value={perPagRequest}
+                                               onChange={(e) => {
+                                                   setPerPageRequest(e.target.value)
+                                                   refresh(pageNumRequest, e.target.value)
+                                               }}
                                                className=''
                                                id="numParPage">
                                             {selectOptions && selectOptions.map((item) => {
@@ -249,16 +177,18 @@ const LeaveRequest = () => {
                                     </th>
                                 </tr>
                                 </thead>
-                                <tbody>{data && renderData()}</tbody>
+                                <tbody>{data && data.resultData && data.resultData.requests && renderData()}</tbody>
                             </Table>
 
                         </Card>
-                        <CustomPagination
-                            count={100}
-                            current={3}
-                            perPage={25}
-                            searchFunc={search}
-                        />
+                        {data && data.resultData && data.resultData.requests &&
+                            <CustomPagination
+                                count={data.resultData.count}
+                                current={data.resultData.current}
+                                perPage={data.resultData.perPage}
+                                searchFunc={search}
+                            />
+                        }
                     </div>
                 }
                 <Modal
@@ -272,10 +202,63 @@ const LeaveRequest = () => {
                             <h3 className='text-center mb-3 '>ثبت درخواست مرخصی</h3>
                             <Form onSubmit={onSubmit}>
                                 <Row className='mb-1'>
-                                </Row>
+                                    <Input type='select' defaultChecked onChange={e => setHourly(e.target.value)}>
+                                        <option value={false}>روزانه</option>
+                                        <option value={true}>ساعتی</option>
+                                    </Input>
 
-                                <Row>
                                 </Row>
+                                <Row className='mb-1'>
+                                    <Input type='select' defaultChecked onChange={e => setRequestType(e.target.value)}>
+                                        <option value={1}>استحقاقی</option>
+                                        <option value={2}>جهت اطلاع</option>
+                                        <option value={3}>استعلاجی</option>
+                                    </Input>
+
+                                </Row>
+                                <Row className='m-0 p-0'>
+                                    <Row className='mx-0 px-0'>
+                                        <Label className='text-danger'> تاریخ </Label>
+                                    </Row>
+                                    <Row className='mx-0 px-0'>
+                                        <Col className='d-flex align-items-center mx-0 px-0'>
+                                            <span className='me-1'>از</span>
+                                            <CustomDatePicker setValue={setFromDateRequest}/>
+                                        </Col>
+                                        <Col className='d-flex align-items-center mx-0 px-0'>
+                                            <span className='mx-1'>تا</span>
+                                            <CustomDatePicker setValue={setToDateRequest}/>
+                                        </Col>
+                                    </Row>
+                                </Row>
+                                {hourly === 'true' &&
+                                    <Row className='m-0 p-0 mt-1'>
+                                        <Row className='mx-0 px-0'>
+                                            <Label className='text-danger'> ساعت </Label>
+                                        </Row>
+                                        <Row className='mx-0 px-0'>
+                                            <Col className='d-flex align-items-center mx-0 px-0'>
+                                                <span className='me-1'>از</span>
+                                                <PickerTime setValue={setFromTimeRequest}/>
+                                            </Col>
+                                            <Col className='d-flex align-items-center mx-0 px-0'>
+                                                <span className='mx-1'>تا</span>
+                                                <PickerTime setValue={setToTimeRequest}/>
+                                            </Col>
+                                        </Row>
+                                    </Row>
+                                }
+                                <Row className='mt-2'>
+                                    <Col className='d-flex align-items-center'>
+                                        <Input type='textarea' name='desc'
+                                               onChange={(e) => setRequestReason(e.target.value)}
+                                               rows='3'
+                                               maxLength={250}
+                                               defaultValue={requestReason}
+                                               placeholder='علت مرخصی'/>
+                                    </Col>
+                                </Row>
+                                <hr className='my-2'/>
                                 <Row className='mt-1'>
                                     <Col lg='6' md='6' sm='6' xs='6'>
                                         <Button type='submit' color='primary' block>

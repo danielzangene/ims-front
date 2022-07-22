@@ -17,7 +17,9 @@
   border: 1px solid $input-focus-border-color !important;
 
 }
-
+.rmdp-action-buttons button{
+  color: $primary
+}
 .rmdp-time-picker div input{
   background-color: transparent;
   color: $theme-dark-body-color !important;
