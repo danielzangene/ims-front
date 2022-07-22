@@ -1,0 +1,48 @@
+@import '../../../base/bootstrap-extended/include';
+@import '../../../base/components/include';
+@import '../../../base/core/colors/palette-variables';
+
+.datepicker-custom {
+  background-color: transparent;
+  border-radius: $input-border-radius;
+  width: 100%;
+  color: $theme-dark-body-color !important;
+  border: 1px solid rgba($body-color, 0.4) !important;
+  padding: 4px 12px;
+  height: $input-height;
+}
+
+.datepicker-custom:focus {
+  outline: none;
+  border: 1px solid $input-focus-border-color !important;
+}
+
+.custom-calendar.rmdp-wrapper,
+.rmdp-container .custom-calendar.ep-arrow::after {
+  background-color: $theme-dark-card-bg !important;
+}
+
+.rmdp-day.rmdp-selected span{
+  background-color: $primary !important;
+
+}
+.rmdp-day.rmdp-today span{
+  background-color: $body-color ;
+}
+
+.rmdp-container .rmdp-week-day{
+  color: $primary !important;
+
+}
+.rmdp-container .sd,
+.rmdp-container .rmdp-header-values{
+  color: $theme-dark-body-color !important;
+}
+
+.rmdp-container .custom-calendar.ep-arrow[direction="bottom"] {
+  border-top: 1px solid $theme-dark-card-bg !important;
+}
+
+.rmdp-container .custom-calendar.ep-arrow[direction="top"] {
+  border-bottom: 1px solid $theme-dark-card-bg !important;
+}

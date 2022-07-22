@@ -2,7 +2,7 @@
 
 //Template config options
 const netConfig = {
-    baseUrl: "http://localhost:8080",
+    baseUrl: "http://192.168.43.61:8080",
     okStatus: 200,
     unauthorizedStatus: 401,
     getMethod: "GET",
