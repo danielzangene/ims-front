@@ -11,10 +11,28 @@
   padding: 4px 12px;
   height: $input-height;
 }
+.rmdp-time-picker div input:hover{
+  border-radius: $input-border-radius;
+  outline: none;
+  border: 1px solid $input-focus-border-color !important;
 
+}
+
+.rmdp-time-picker div input{
+  background-color: transparent;
+  color: $theme-dark-body-color !important;
+  border-radius: $input-border-radius;
+  border: 1px solid transparent !important;
+}
+.rmdp-arrow-container:hover{
+  background-color: $primary !important;
+}
 .datepicker-custom:focus {
   outline: none;
   border: 1px solid $input-focus-border-color !important;
+}
+.rmdp-container{
+  width: 100%;
 }
 
 .custom-calendar.rmdp-wrapper,
