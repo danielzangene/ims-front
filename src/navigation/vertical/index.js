@@ -1,23 +1,15 @@
-import {Layers, Home, User} from 'react-feather'
+import {User} from 'react-feather'
+import cartable from "./cartable"
+import dashboard from "./dashboard"
 
 export default [
-    {
-        id: 'home',
-        title: 'خانه',
-        icon: <Home size={20}/>,
-        navLink: '/home'
-    },
+    ...dashboard,
+    ...cartable,
     {
         id: 'profile',
         title: 'پروفایل',
         icon: <User size={20}/>,
         navLink: '/profile'
-    },
-    {
-        id: 'footwork',
-        title: 'تردد',
-          icon: <Layers size={20} />,
-        navLink: '/footwork'
     },
     {
         id: 'test',

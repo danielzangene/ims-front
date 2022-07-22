@@ -1,4 +1,6 @@
-import { lazy } from 'react'
+import {lazy} from 'react'
+import cartable from "./cartable"
+import dashboard from "./dashboard"
 
 // ** Document title
 const TemplateTitle = '%s - سامانه مدیریتی'
@@ -8,17 +10,11 @@ const DefaultRoute = '/home'
 
 // ** Merge Routes
 const Routes = [
-  {
-    path: '/home',
-    component: lazy(() => import('../../views/dashboard/Home'))
-  },
+    ...dashboard,
+    ...cartable,
   {
     path: '/profile',
     component: lazy(() => import('../../views/Profile'))
-  },
-  {
-    path: '/footwork',
-    component: lazy(() => import('../../views/foorwork/FootWork'))
   },
   {
     path: '/test',

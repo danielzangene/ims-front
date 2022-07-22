@@ -1,11 +1,13 @@
+let refreshList = new Array()
 
-export const refreshList = new Array()
-
-export const addRefreshList = (name, func) => {
-    if (!refreshList.filter(e => e.className === name).length > 0) refreshList.push({className: name, function: func})
+const addRefreshList = (name, func) => {
+    if (refreshList.filter(e => e.className === name).length > 0) {
+        refreshList = refreshList.filter(e => e.className !== name)
+    }
+    refreshList.push({className: name, function: func})
 }
 
-export const refreshAll = async (name) => {
+const refreshAll = async (name) => {
     for (const item of refreshList) {
         if (item.className !== name) {
             try {

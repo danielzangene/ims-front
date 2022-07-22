@@ -21,7 +21,7 @@ const MonthSummaryCard = (isVisible) => {
         },
         {
             title: 'totalMonthExtera',
-            subtitle: 'اضافه کاری',
+            subtitle: 'اضافه کار',
             color: 'light-success',
             icon: <TrendingUp size={24}/>
         },

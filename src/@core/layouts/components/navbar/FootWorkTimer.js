@@ -27,7 +27,7 @@ function FootWorkTimer({start}) {
     return (
         <span className='align-middle ms-25 mx-1'>
                         {hours && hours}:
-            {minutes && minutes}:
+            {minutes && minutes}.
             {seconds && seconds}
         </span>
     )

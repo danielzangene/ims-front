@@ -10,6 +10,7 @@ import TimeCardLog from "./TimeCardLog"
 import useFetchUrl from "../../../utility/UseFetchUrl"
 import {addStr} from '@utils'
 import {animated, useSpring} from 'react-spring'
+import SimpleLoading from "../../component/SimpleLoading"
 
 const TimeCard = (props) => {
 
@@ -108,11 +109,11 @@ const TimeCard = (props) => {
             <CardBody className='time-card-body'>
                 <UILoader blocking={blockCard}>
                     <div
-                        className={timeData && timeData.off ? 'text-center time-card-header bg-light-danger rounded' : 'text-center bg-text-center time-card-header bg-light-primary rounded'}>
+                        className={timeData && timeData.off ? 'text-center time-card-header bg-light-danger rounded' : 'text-center bg-text-center time-card-header bg-primary rounded'}>
                         <div>
-                            <small className='text-dark'>{formattedDate}</small>
+                            <small className='text-light'>{formattedDate}</small>
                             <br/>
-                            <small className='text-muted'>{timeData && addStr(timeData.totalDay, 2, ":")}</small>
+                            <small className='text-light opacity-50'>{timeData && addStr(timeData.totalDay, 2, ":")}</small>
                         </div>
                     </div>
                 </UILoader>
@@ -125,11 +126,7 @@ const TimeCard = (props) => {
                 </div>
                 {today && data.footWorks.length % 2 !== 0 && data.footWorks.length !== 0 &&
                     <div className="d-flex justify-content-center mt-1 opacity-25">
-                        <div className="loading">
-                            <div className="loading-dot"></div>
-                            <div className="loading-dot"></div>
-                            <div className="loading-dot"></div>
-                        </div>
+                        <SimpleLoading/>
                     </div>
                 }
                 <div className='d-grid my-1'>
