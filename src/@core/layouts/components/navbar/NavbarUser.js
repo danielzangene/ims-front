@@ -11,6 +11,7 @@ import {Play, Moon, Sun} from 'react-feather'
 import {Button, NavItem, NavLink} from 'reactstrap'
 import StartFootWorkLog from "./StartFootWorkLog"
 import { useSkin } from '@hooks/useSkin'
+import NotificationSidebar from "./NotificationSidebar"
 
 const NavbarUser = () => {
     // ** Props
@@ -37,6 +38,7 @@ const NavbarUser = () => {
 
             <ul className='nav navbar-nav align-items-center ms-auto'>
                 <StartFootWorkLog />
+                <NotificationSidebar/>
                 <UserDropdown/>
             </ul>
         </Fragment>
