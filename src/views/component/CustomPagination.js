@@ -1,9 +1,9 @@
-import {Input, Label, Pagination, PaginationItem, PaginationLink} from 'reactstrap'
+import {Pagination, PaginationItem, PaginationLink} from 'reactstrap'
 import {ChevronLeft, ChevronRight} from 'react-feather'
 
 const CustomPagination = ({count, current, perPage, searchFunc}) => {
     const search = (pageNum) => {
-      searchFunc(pageNum)
+        searchFunc(pageNum)
     }
     return (
         <div className='d-flex d-flex justify-content-between flex-wrap align-items-center align-self-center mx-2 '>
@@ -11,7 +11,7 @@ const CustomPagination = ({count, current, perPage, searchFunc}) => {
                 <span>تعداد</span>
                 <span className='ps-1'>{((current - 1) * perPage) + 1}</span>
                 <span>-</span>
-                <span className='pe-1'>{current * perPage}</span>
+                <span className='pe-1'>{Math.min(current * perPage, count)}</span>
                 <span>از</span>
                 <span className='px-1'> {count}</span>
                 <span>مورد</span>

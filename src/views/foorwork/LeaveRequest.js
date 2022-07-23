@@ -134,23 +134,30 @@ const LeaveRequest = () => {
         return data.resultData.requests.map((item) => {
             return (
                 <tr key={item.id}>
-                    <td className='pe-0'>
+                    <td className='px-1 mx-0'>
                         {item.canDelete &&
-                            <Button color='flat-danger' className='ps-0 opacity-50' onClick={() => {
+                            <Button color='flat-danger' className='btn-icon round' onClick={() => {
                                 deleteRequest(item.id)
                             }}>
                                 <Trash/>
                             </Button>
                         }
-                    </td>
-                    <td className='px-1'>
-                        {statusIcon[item.status.code]}
+
+                        {!item.canDelete &&
+                            <Button color='flat-danger' className=' btn-icon round' disabled onClick={() => {
+                                deleteRequest(item.id)
+                            }}>
+                                {statusIcon[item.status.code]}
+                            </Button>
+                        }
                     </td>
                     <td className='text-nowrap ps-0'>
                         <div className='d-flex align-items-center'>
                             <div>
-                                <span className='fw-bolder me-3'>از {item.from}</span>
-                                <span className='fw-bolder'>تا {item.to}</span>
+                                <span className='fw-bolder me-1'>از </span>
+                                <span className='fw-bolder me-3'>{item.from}</span>
+                                <span className='fw-bolder me-1'>تا </span>
+                                <span className='fw-bolder'>{item.to} </span>
                             </div>
                         </div>
                     </td>
@@ -189,7 +196,7 @@ const LeaveRequest = () => {
 
                                 <thead>
                                 <tr>
-                                    <th colSpan={4}>
+                                    <th colSpan={3}>
                                         <Button color='success' className='' onClick={() => {
                                             setShow(true)
                                         }}>
