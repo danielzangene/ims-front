@@ -62,8 +62,12 @@ const MonthSummaryCard = (isVisible) => {
                     <div className='d-flex align-items-center'>
                         <Avatar color={item.color} icon={item.icon} className='me-2'/>
                         <div className='my-auto'>
-                            <h4 className='fw-bolder mb-0'>{data.resultData && addStr(data.resultData[item.title], data.resultData[item.title].length - 2, ':')}</h4>
-                            {item.subtitle && <CardText className='font-small-3 mb-0'>{item.subtitle}</CardText>}
+                            {index === 0 &&
+                                <h2 className='fw-bolder mb-0'>{data.resultData && addStr(data.resultData[item.title], data.resultData[item.title].length - 2, ':')}</h2>
+                            }
+                            {index !== 0 &&
+                                <h4 className='fw-bolder mb-0'>{data.resultData && addStr(data.resultData[item.title], data.resultData[item.title].length - 2, ':')}</h4>
+                            }{item.subtitle && <CardText className='font-small-3 mb-0'>{item.subtitle}</CardText>}
                         </div>
                     </div>
                 </Col>

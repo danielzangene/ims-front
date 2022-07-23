@@ -57,6 +57,8 @@ const StartFootWorkLog = () => {
                 showSuccessToast("پایان")
                 document.title = netConfig.app.appName
                 useStart.refresh('StartFootWorkLog')
+                document.title = netConfig.app.appName
+
             } else {
                 showErrorToast(res.message)
             }
