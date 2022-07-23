@@ -1,18 +1,32 @@
+import {useEffect, useState} from 'react'
 import Flatpickr from 'react-flatpickr'
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 
-const Timepickers = ({setValue}) => {
+const Timepickers = ({setValue, isValid}) => {
+
+    const [inputClass, setInputClass] = useState('')
+
+    useEffect(() => {
+        if (isValid)    setInputClass('form-control')
+        else            setInputClass('form-control is-invalid')
+    }, [isValid])
+
 
     return (
         <Flatpickr
-            className='form-control'
+            className={inputClass}
             options={{
                 enableTime: true,
                 noCalendar: true,
                 dateFormat: 'H:m',
                 time_24hr: true
             }}
-            onChange={date => setValue(date)}
+            invalid={false}
+            onChange={date => {
+                const dateObj = new Date(date[0])
+                setValue(`${String(dateObj.getHours()).padStart(2, '0')}${String(dateObj.getMinutes()).padStart(2, '0')}`)
+                }
+            }
         />
     )
 }

@@ -29,6 +29,13 @@ const LeaveRequest = () => {
     const [requestReason, setRequestReason] = useState('')
     const [requestType, setRequestType] = useState(1)
 
+    const [errors, setErrors] = useState({
+        fromDateRequest: {is: false},
+        toDateRequest: {is: false},
+        fromTimeRequest: {is: false},
+        toTimeRequest: {is: false}
+    })
+
     const newRequest = {
         from: fromDateRequest,
         to: toDateRequest,
@@ -42,27 +49,58 @@ const LeaveRequest = () => {
         pageNum: pageNumRequest,
         perPage: perPagRequest
     }
-
-    const onSubmit = async (e) => {
-        e.preventDefault()
-        setBlockWindow(true)
-        console.log(newRequest)
-        const res = await useFetchUrl("/api/v1/personnel/leave/log", "POST", newRequest)
-        if (res.code === netConfig.okStatus) {
-            showSuccessToast(res.message)
-            setShow(false)
-        } else {
-            showErrorToast(res.message)
-        }
-        setBlockWindow(false)
-    }
-
     const refresh = async (currentPage, maxPageSize) => {
         pageSearch.pageNum = currentPage
         pageSearch.perPage = maxPageSize
         const d = await useFetchUrl("/api/v1/personnel/leave/all", "PATCH", pageSearch)
-        console.log(d)
         setData(d)
+    }
+    const validationCheck = () => {
+        let result = true
+        const newErrors = {...errors}
+
+        if (fromDateRequest.length === 0) {
+            newErrors.fromDateRequest.is = true
+            result = false
+        } else {
+            newErrors.fromDateRequest.is = false
+        }
+        if (toDateRequest.length === 0) {
+            newErrors.toDateRequest.is = true
+            result = false
+        } else {
+            newErrors.toDateRequest.is = false
+        }
+        if (fromTimeRequest.length === 0) {
+            newErrors.fromTimeRequest.is = true
+            result = false
+        } else {
+            newErrors.fromTimeRequest.is = false
+        }
+        if (toTimeRequest.length === 0) {
+            newErrors.toTimeRequest.is = true
+            result = false
+        } else {
+            newErrors.toTimeRequest.is = false
+        }
+        setErrors(newErrors)
+
+        return result
+    }
+    const onSubmit = async (e) => {
+        e.preventDefault()
+        if (validationCheck()) {
+            setBlockWindow(true)
+            const res = await useFetchUrl("/api/v1/personnel/leave/log", "POST", newRequest)
+            if (res.code === netConfig.okStatus) {
+                showSuccessToast(res.message)
+                setShow(false)
+                await refresh(pageNumRequest, perPagRequest)
+            } else {
+                showErrorToast(res.message)
+            }
+            setBlockWindow(false)
+        }
     }
 
     const deleteRequest = async (requestId) => {
@@ -93,7 +131,6 @@ const LeaveRequest = () => {
     }, [])
 
     const renderData = () => {
-        console.log("test")
         return data.resultData.requests.map((item) => {
             return (
                 <tr key={item.id}>
@@ -223,11 +260,13 @@ const LeaveRequest = () => {
                                     <Row className='mx-0 px-0'>
                                         <Col className='d-flex align-items-center mx-0 px-0'>
                                             <span className='me-1'>از</span>
-                                            <CustomDatePicker setValue={setFromDateRequest}/>
+                                            <CustomDatePicker setValue={setFromDateRequest}
+                                                              isValid={!errors.fromDateRequest.is}/>
                                         </Col>
                                         <Col className='d-flex align-items-center mx-0 px-0'>
                                             <span className='mx-1'>تا</span>
-                                            <CustomDatePicker setValue={setToDateRequest}/>
+                                            <CustomDatePicker setValue={setToDateRequest}
+                                                              isValid={!errors.toDateRequest.is}/>
                                         </Col>
                                     </Row>
                                 </Row>
@@ -239,11 +278,13 @@ const LeaveRequest = () => {
                                         <Row className='mx-0 px-0'>
                                             <Col className='d-flex align-items-center mx-0 px-0'>
                                                 <span className='me-1'>از</span>
-                                                <PickerTime setValue={setFromTimeRequest}/>
+                                                <PickerTime setValue={setFromTimeRequest}
+                                                            isValid={!errors.fromTimeRequest.is}/>
                                             </Col>
                                             <Col className='d-flex align-items-center mx-0 px-0'>
                                                 <span className='mx-1'>تا</span>
-                                                <PickerTime setValue={setToTimeRequest}/>
+                                                <PickerTime setValue={setToTimeRequest}
+                                                            isValid={!errors.toTimeRequest.is}/>
                                             </Col>
                                         </Row>
                                     </Row>

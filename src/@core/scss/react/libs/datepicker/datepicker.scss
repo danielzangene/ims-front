@@ -11,29 +11,42 @@
   padding: 4px 12px;
   height: $input-height;
 }
-.rmdp-time-picker div input:hover{
+.is-invalid {
+  border-color: $danger !important;
+}
+
+.time24hr{
+  direction: rtl !important;
+}
+
+.rmdp-time-picker div input:hover {
   border-radius: $input-border-radius;
   outline: none;
   border: 1px solid $input-focus-border-color !important;
 
 }
-.rmdp-action-buttons button{
+
+.rmdp-action-buttons button {
   color: $primary
 }
-.rmdp-time-picker div input{
+
+.rmdp-time-picker div input {
   background-color: transparent;
   color: $theme-dark-body-color !important;
   border-radius: $input-border-radius;
   border: 1px solid transparent !important;
 }
-.rmdp-arrow-container:hover{
+
+.rmdp-arrow-container:hover {
   background-color: $primary !important;
 }
+
 .datepicker-custom:focus {
   outline: none;
   border: 1px solid $input-focus-border-color !important;
 }
-.rmdp-container{
+
+.rmdp-container {
   width: 100%;
 }
 
@@ -42,20 +55,22 @@
   background-color: $theme-dark-card-bg !important;
 }
 
-.rmdp-day.rmdp-selected span{
+.rmdp-day.rmdp-selected span {
   background-color: $primary !important;
 
 }
-.rmdp-day.rmdp-today span{
-  background-color: $body-color ;
+
+.rmdp-day.rmdp-today span {
+  background-color: $body-color;
 }
 
-.rmdp-container .rmdp-week-day{
+.rmdp-container .rmdp-week-day {
   color: $primary !important;
 
 }
+
 .rmdp-container .sd,
-.rmdp-container .rmdp-header-values{
+.rmdp-container .rmdp-header-values {
   color: $theme-dark-body-color !important;
 }
 

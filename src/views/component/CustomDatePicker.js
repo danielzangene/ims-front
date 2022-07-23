@@ -1,3 +1,4 @@
+import {useEffect, useState} from 'react'
 import DatePicker from "react-multi-date-picker"
 import opacity from "react-element-popper/animations/opacity"
 import persian from "react-date-object/calendars/persian"
@@ -6,12 +7,20 @@ import '@styles/react/libs/datepicker/datepicker.scss'
 import {ChevronLeft, ChevronRight} from 'react-feather'
 import "react-multi-date-picker/styles/layouts/mobile.css"
 
-const CustomDatePicker = ({setValue}) => {
+const CustomDatePicker = ({setValue, isValid}) => {
+
+    const [inputClass, setInputClass] = useState('')
+
+    useEffect(() => {
+        if (isValid)    setInputClass('datepicker-custom w-100')
+        else            setInputClass('datepicker-custom w-100 is-invalid')
+    }, [isValid])
+
     return (
         <DatePicker
             scrollSensitive={false}
-            inputClass="datepicker-custom w-100"
-            className="custom-calendar rmdp-mobile"
+            inputClass={inputClass}
+            className="custom-calendar rmdp-mobile "
             format={"YYYY/MM/DD"}
             renderButton={(direction, handleClick) => (
                 (direction === 'right' ? (
