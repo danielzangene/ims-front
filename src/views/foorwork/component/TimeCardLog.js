@@ -8,7 +8,7 @@ import {
     UncontrolledDropdown,
     UncontrolledPopover
 } from 'reactstrap'
-import {ChevronsLeft, ChevronsRight, Edit3, Trash} from 'react-feather'
+import {X, Minus, Check, ChevronsLeft, ChevronsRight, Edit3, Trash} from 'react-feather'
 import {addStr} from '@utils'
 
 
@@ -25,6 +25,11 @@ const TimeCardLog = ({data, index, logActions}) => {
         CONFIRMED_REQUEST_STATUS: 'bg-success',
         REGISTERED_REQUEST_STATUS: 'bg-warning'
     }
+    const statusIcons = {
+        REJECTED_REQUEST_STATUS: <X size={14} className='text-white opacity-50'/>,
+        CONFIRMED_REQUEST_STATUS: <Check size={14} className='text-white opacity-50'/>,
+        REGISTERED_REQUEST_STATUS: <Minus size={14} className='text-white opacity-50'/>
+    }
 
     const onHoverLeave = () => {
         setPopoverOpen(false)
@@ -35,27 +40,32 @@ const TimeCardLog = ({data, index, logActions}) => {
              onMouseLeave={onHoverLeave}
         >
             <UncontrolledDropdown className='time-card-log-dropdown w-100' id={`logtime-${data.time}${data.id}`}>
-                {data && data.desc &&
                     <UncontrolledPopover
                         trigger='focus'
                         isOpen={popoverOpen}
                         placement='top'
                         target={`logtime-${data.time}${data.id}`}>
                         <PopoverHeader className={statusClassName[data.status.code]}>{data.status.name}</PopoverHeader>
+                        {data && data.desc &&
                         <PopoverBody>
                             {data.desc}
                         </PopoverBody>
+                        }
                     </UncontrolledPopover>
-                }
                 <DropdownToggle color=''
                                 className={index % 2 === 0 ? 'bg-light-success round w-100 text-start p-0' : 'bg-light-danger round  w-100 text-start p-0'}>
-                    <p className=' mb-0 pb-0'>
-                        {index % 2 === 0 ? <ChevronsLeft size={20}/> : <ChevronsRight size={20}/>}
-                        <small
-                            className={index % 2 === 0 ? 'text-secondary text-success' : 'text-secondary text-danger'}>
-                            {data && addStr(data.time, 2, ":")}
-                        </small>
-                    </p>
+                    <div className='d-flex justify-content-between'>
+                        <div className='d-flex align-items-center'>
+                            {index % 2 === 0 ? <ChevronsLeft size={20}/> : <ChevronsRight size={20}/>}
+                            <small
+                                className={index % 2 === 0 ? 'text-secondary text-success' : 'text-secondary text-danger'}>
+                                {data && addStr(data.time, 2, ":")}
+                            </small>
+                        </div>
+                        <div className='d-flex align-items-center me-1'>
+                            {statusIcons[data.status.code]}
+                        </div>
+                    </div>
                 </DropdownToggle>
                 <DropdownMenu end>
                     <DropdownItem key='edit' onClick={() => logActions.editLog(logTimeData.id)}>

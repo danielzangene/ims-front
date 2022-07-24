@@ -71,13 +71,13 @@ const LeaveRequest = () => {
         } else {
             newErrors.toDateRequest.is = false
         }
-        if (fromTimeRequest.length === 0) {
+        if (hourly === 'true' && fromTimeRequest.length === 0) {
             newErrors.fromTimeRequest.is = true
             result = false
         } else {
             newErrors.fromTimeRequest.is = false
         }
-        if (toTimeRequest.length === 0) {
+        if (hourly === 'true' && toTimeRequest.length === 0) {
             newErrors.toTimeRequest.is = true
             result = false
         } else {
@@ -173,7 +173,7 @@ const LeaveRequest = () => {
                     </td>
                     <td className='text-nowrap'>
                         <div className='d-flex flex-column'>
-                            {item.type && item.type.name}
+                            {item.leaveType && item.leaveType.name}
                         </div>
                     </td>
                     <td colSpan={2} className='text-nowrap'>
@@ -225,7 +225,11 @@ const LeaveRequest = () => {
                             </Table>
 
                         </Card>
-                        {data && data.resultData && data.resultData.requests &&
+
+                        {data && data.resultData && data.resultData.requests && data.resultData.requests.length === 0 &&
+                            <span>درخواستی ثبت نشده.</span>
+                        }
+                        {data && data.resultData && data.resultData.requests && data.resultData.requests.length !== 0 &&
                             <CustomPagination
                                 count={data.resultData.count}
                                 current={data.resultData.current}
