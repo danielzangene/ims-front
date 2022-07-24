@@ -8,7 +8,7 @@ import {
     UncontrolledDropdown,
     UncontrolledPopover
 } from 'reactstrap'
-import {X, Minus, Check, ChevronsLeft, ChevronsRight, Edit3, Trash} from 'react-feather'
+import {Check, ChevronsLeft, ChevronsRight, Edit3, Trash, X} from 'react-feather'
 import {addStr} from '@utils'
 
 
@@ -26,9 +26,16 @@ const TimeCardLog = ({data, index, logActions}) => {
         REGISTERED_REQUEST_STATUS: 'bg-warning'
     }
     const statusIcons = {
-        REJECTED_REQUEST_STATUS: <X size={14} className='text-white opacity-50'/>,
-        CONFIRMED_REQUEST_STATUS: <Check size={14} className='text-white opacity-50'/>,
-        REGISTERED_REQUEST_STATUS: <Minus size={14} className='text-white opacity-50'/>
+        REJECTED_REQUEST_STATUS: <div className='d-flex align-items-center' style={{marginLeft: '6px'}}>
+            <X size={12} className='text-white opacity-25'/>
+        </div>,
+        CONFIRMED_REQUEST_STATUS: <div className='d-flex align-items-center' style={{marginLeft: '6px'}}>
+            <Check size={12} className='text-white  opacity-25'/>
+        </div>,
+        REGISTERED_REQUEST_STATUS: <div className='d-flex align-items-center' style={{marginLeft: '10px'}}>
+            <span className='text-white opacity-25'>!</span>
+        </div>
+
     }
 
     const onHoverLeave = () => {
@@ -40,18 +47,18 @@ const TimeCardLog = ({data, index, logActions}) => {
              onMouseLeave={onHoverLeave}
         >
             <UncontrolledDropdown className='time-card-log-dropdown w-100' id={`logtime-${data.time}${data.id}`}>
-                    <UncontrolledPopover
-                        trigger='focus'
-                        isOpen={popoverOpen}
-                        placement='top'
-                        target={`logtime-${data.time}${data.id}`}>
-                        <PopoverHeader className={statusClassName[data.status.code]}>{data.status.name}</PopoverHeader>
-                        {data && data.desc &&
+                <UncontrolledPopover
+                    trigger='focus'
+                    isOpen={popoverOpen}
+                    placement='top'
+                    target={`logtime-${data.time}${data.id}`}>
+                    <PopoverHeader className={statusClassName[data.status.code]}>{data.status.name}</PopoverHeader>
+                    {data && data.desc &&
                         <PopoverBody>
                             {data.desc}
                         </PopoverBody>
-                        }
-                    </UncontrolledPopover>
+                    }
+                </UncontrolledPopover>
                 <DropdownToggle color=''
                                 className={index % 2 === 0 ? 'bg-light-success round w-100 text-start p-0' : 'bg-light-danger round  w-100 text-start p-0'}>
                     <div className='d-flex justify-content-between'>
@@ -62,9 +69,7 @@ const TimeCardLog = ({data, index, logActions}) => {
                                 {data && addStr(data.time, 2, ":")}
                             </small>
                         </div>
-                        <div className='d-flex align-items-center me-1'>
-                            {statusIcons[data.status.code]}
-                        </div>
+                        {statusIcons[data.status.code]}
                     </div>
                 </DropdownToggle>
                 <DropdownMenu end>
