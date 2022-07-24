@@ -163,10 +163,11 @@
 
         // Cart & Notification badge
         &.dropdown-cart,
-        &.dropdown-notification {
+        &.dropdown-user {
           .badge {
             &.badge-up {
-              right: -3px;
+              top: -3px !important;
+              right: 0px !important;
             }
           }
           .dropdown-menu.dropdown-menu-end {

@@ -73,7 +73,7 @@ const StartFootWorkLog = () => {
     )
 
     return (
-        <div onClick={startCounting} className='px-1'>
+        <div onClick={startCounting} className='pe-1'>
             <Button className={`btn-icon ${buttonClassNames}`} outline>
                 {start ? <div ><FootWorkTimer start={counter}/><Pause size={18}/></div> : <Play size={18} className='btn-play-icon'/>}
             </Button>

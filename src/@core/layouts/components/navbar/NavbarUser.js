@@ -39,7 +39,6 @@ const NavbarUser = () => {
             <ul className='nav navbar-nav align-items-center ms-auto'>
                 <StartFootWorkLog />
                 <NotificationSidebar/>
-                <UserDropdown/>
             </ul>
         </Fragment>
     )
