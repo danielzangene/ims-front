@@ -20,6 +20,12 @@ const TimeCardLog = ({data, index, logActions}) => {
         setPopoverOpen(true)
     }
 
+    const statusClassName = {
+        REJECTED_REQUEST_STATUS: 'bg-danger',
+        CONFIRMED_REQUEST_STATUS: 'bg-success',
+        REGISTERED_REQUEST_STATUS: 'bg-warning'
+    }
+
     const onHoverLeave = () => {
         setPopoverOpen(false)
     }
@@ -35,7 +41,7 @@ const TimeCardLog = ({data, index, logActions}) => {
                         isOpen={popoverOpen}
                         placement='top'
                         target={`logtime-${data.time}${data.id}`}>
-                        <PopoverHeader>شرح کارکرد</PopoverHeader>
+                        <PopoverHeader className={statusClassName[data.status.code]}>{data.status.name}</PopoverHeader>
                         <PopoverBody>
                             {data.desc}
                         </PopoverBody>
