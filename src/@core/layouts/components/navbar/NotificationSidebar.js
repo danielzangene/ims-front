@@ -1,5 +1,6 @@
 import {Fragment, useEffect, useState} from 'react'
 import {
+    Badge,
     Button,
     Col,
     DropdownToggle,
@@ -7,7 +8,6 @@ import {
     OffcanvasBody,
     OffcanvasHeader,
     Row,
-    Badge,
     UncontrolledDropdown
 } from 'reactstrap'
 import Avatar from '@components/avatar'
@@ -239,14 +239,14 @@ const NotificationSidebar = () => {
                     </OffcanvasBody>
                 }
                 <OffcanvasHeader className=''>
-                        <Button className='text-white' color='flat-primary' outline onClick={linkProfile}>
-                            <Avatar color='light-primary' icon={<User size={20}/>} className='my-1 me-1'/>
-                            پروفایل
-                        </Button>
-                        <Button className='text-white' color='flat-danger' outline onClick={logout}>
-                            <Avatar color='light-danger' icon={<LogOut size={20}/>} className='m-1'/>
-                            خروج
-                        </Button>
+                    <Button color='flat-dark' outline onClick={linkProfile} className='text-body'>
+                        <Avatar color='light-primary' icon={<User size={20}/>} className='my-1 me-1'/>
+                        <span> پروفایل</span>
+                    </Button>
+                    <Button color='flat-danger' outline onClick={logout} className='text-body'>
+                        <Avatar color='light-danger' icon={<LogOut size={20}/>} className='m-1'/>
+                        <span>خروج</span>
+                    </Button>
                 </OffcanvasHeader>
             </Offcanvas>
         </div>
