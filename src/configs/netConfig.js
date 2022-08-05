@@ -1,8 +1,8 @@
 // You can customize the template with the help of this file
 
 //Template config options
-const netConfig = {
-    baseUrl: "http://192.168.43.61:8080",
+const netConfig = {//http://37.32.29.248:3000/
+    baseUrl: "http://37.32.29.248:8080",
     okStatus: 200,
     unauthorizedStatus: 401,
     getMethod: "GET",
