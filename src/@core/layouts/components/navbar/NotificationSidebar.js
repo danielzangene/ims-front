@@ -12,16 +12,17 @@ import {
 } from 'reactstrap'
 import Avatar from '@components/avatar'
 
-import classnames from 'classnames'
-import {Check, LogOut, User, X} from 'react-feather'
+import {LogOut, User, X} from 'react-feather'
 import {useHistory} from "react-router-dom"
 import defaultAvatar from '@src/assets/images/portrait/small/avatar-s-1.jpg'
 import {getUserData, isUserLoggedIn, logoutHandler} from '@utils'
+import useFetchUrl from "../../../../utility/UseFetchUrl"
 
 const NotificationSidebar = () => {
 
     const [show, setShow] = useState(false)
     const [userData, setUserData] = useState(null)
+    const [data, setData] = useState(null)
     const history = useHistory()
     const userAvatar = (userData && userData.avatar) || defaultAvatar
 
@@ -42,153 +43,44 @@ const NotificationSidebar = () => {
         setShow(false)
     }
 
+    const statusClass = {
+        LEAVE_REQUEST_LOG_TYPE_2: 'bg-light-danger',
+        FOOT_WORK_LOG_TYPE: 'bg-light-success',
+        LEAVE_REQUEST_LOG_TYPE: 'bg-light-warning'
+    }
+
     const showCanvas = (e) => {
         e.preventDefault()
         setShow(true)
     }
-
-    const notificationsArray = [
-        {
-            img: null, //require('@src/assets/images/portrait/small/avatar-s-15.jpg').default,
-            subtitle: 'Won the monthly best seller badge.',
-            title: (
-                <p className='media-heading'>
-                    <span className='fw-bolder'>Congratulation Sam 🎉</span>winner!
-                </p>
-            )
-        },
-        {
-            img: null, //require('@src/assets/images/portrait/small/avatar-s-15.jpg').default,
-            subtitle: 'You have 10 unread messages.',
-            title: (
-                <p className='media-heading'>
-                    <span className='fw-bolder'>New message</span>&nbsp;received
-                </p>
-            )
-        },
-        {
-            avatarContent: 'MD',
-            color: 'light-danger',
-            subtitle: 'MD Inc. order updated',
-            title: (
-                <p className='media-heading'>
-                    <span className='fw-bolder'>Revised Order 👋</span>&nbsp;checkout
-                </p>
-            )
-        },
-        {
-            avatarIcon: <X size={14}/>,
-            color: 'light-danger',
-            subtitle: 'USA Server is down due to hight CPU usage',
-            title: (
-                <p className='media-heading'>
-                    <span className='fw-bolder'>Server down</span>&nbsp;registered
-                </p>
-            )
-        },
-        {
-            avatarIcon: <Check size={14}/>,
-            color: 'light-success',
-            subtitle: 'Last month sales report generated',
-            title: (
-                <p className='media-heading'>
-                    <span className='fw-bolder'>Sales report</span>&nbsp;generated
-                </p>
-            )
-        },
-        {
-            avatarIcon: "!",
-            color: 'light-warning',
-            subtitle: 'BLR Server using high memory',
-            title: (
-                <p className='media-heading'>
-                    <span className='fw-bolder'>High memory</span>&nbsp;usage
-                </p>
-            )
-        }
-    ]
-
-    /*eslint-disable */
+    /*eslint-enable */
     const renderNotificationItems = () => {
-        return notificationsArray.map((item, index) => {
+        return data.resultData.requests.map((item, index) => {
                 return (
                     <div key={index}>
                         <a className='d-flex' href='/' onClick={e => e.preventDefault()}>
-                            <div
-                                className={classnames('list-item d-flex', {
-                                    'align-items-start': !item.switch,
-                                    'align-items-center': item.switch
-                                })}
-                            >
-                                {!item.switch ? (
-                                    <Fragment>
-                                        <div className='me-1'>
-                                            <Avatar
-                                                {...(item.img
-                                                    ? {img: item.img, imgHeight: 32, imgWidth: 32}
-                                                    : item.avatarContent
-                                                        ? {
-                                                            content: item.avatarContent,
-                                                            color: item.color
-                                                        }
-                                                        : item.avatarIcon
-                                                            ? {
-                                                                icon: item.avatarIcon,
-                                                                color: item.color
-                                                            }
-                                                            : null)}
-                                            />
-                                        </div>
-                                        <div className='list-item-body flex-grow-1'>
-                                            {item.title}
-                                            <small className='notification-text'>{item.subtitle}</small>
-                                        </div>
-                                    </Fragment>
-                                ) : (
-                                    <Fragment>
-                                        {item.title}
-                                        {item.switch}
-                                    </Fragment>
-                                )}
-                            </div>
-                        </a>
-                        <a key={index} className='d-flex' href='/' onClick={e => e.preventDefault()}>
-                            <div
-                                className={classnames('list-item d-flex', {
-                                    'align-items-start': !item.switch,
-                                    'align-items-center': item.switch
-                                })}
-                            >
-                                {!item.switch ? (
-                                    <Fragment>
-                                        <div className='me-1'>
-                                            <Avatar
-                                                {...(item.img
-                                                    ? {img: item.img, imgHeight: 32, imgWidth: 32}
-                                                    : item.avatarContent
-                                                        ? {
-                                                            content: item.avatarContent,
-                                                            color: item.color
-                                                        }
-                                                        : item.avatarIcon
-                                                            ? {
-                                                                icon: item.avatarIcon,
-                                                                color: item.color
-                                                            }
-                                                            : null)}
-                                            />
-                                        </div>
-                                        <div className='list-item-body flex-grow-1'>
-                                            {item.title}
-                                            <small className='notification-text'>{item.subtitle}</small>
-                                        </div>
-                                    </Fragment>
-                                ) : (
-                                    <Fragment>
-                                        {item.title}
-                                        {item.switch}
-                                    </Fragment>
-                                )}
+                            <div className='list-item d-flex align-items-start'>
+                                <Fragment>
+                                    <div className='me-1'>
+                                        <Avatar
+                                            {...{
+                                                content: item.userName.split(" ").map(function (value) {
+                                                    return value[0]
+                                                }).join(""),
+                                                color: item.color
+                                            }}
+                                        />
+                                    </div>
+                                    <div className='list-item-body  flex-grow-1'>
+                                        <span className='fw-bolder'>{item.userName}</span>
+                                        <Badge pill
+                                               className={`${statusClass[item.type.code]} ms-1`}>{item.type.name}</Badge>
+                                        <p className='notification-text'>
+                                            {item.description && item.description.substring(0, 60)}
+                                            {item.description && item.description.length > 60 && `...`}
+                                        </p>
+                                    </div>
+                                </Fragment>
                             </div>
                         </a>
                     </div>
@@ -197,6 +89,17 @@ const NotificationSidebar = () => {
         )
     }
     /*eslint-enable */
+
+    const refresh = async () => {
+        const d = await useFetchUrl("/api/v1/personnel/request/all/summary", "PATCH", null)
+        console.log(d)
+        setData(d)
+    }
+
+    useEffect(async () => {
+        await refresh()
+    }, [])
+
 
     return (
         <div>
@@ -207,13 +110,16 @@ const NotificationSidebar = () => {
                         <span className='user-status text-muted'>{(userData && userData.role) || 'Admin'}</span>
                     </div>
                     <Avatar img={userAvatar} imgHeight='40' imgWidth='40'/>{/*status='online'*/}
-                    <Badge pill color='danger' className='badge-up'>5</Badge>
+                    {data && data.resultData && data.resultData.count !== 0 &&
+                        <Badge pill color='danger' className='badge-up'>
+                            {data.resultData.count}
+                        </Badge>
+                    }
                 </DropdownToggle>
 
             </UncontrolledDropdown>
             <Offcanvas
                 scrollable={true}
-                // backdrop={canvasBackdrop}
                 direction='end'
                 isOpen={show}
                 toggle={() => setShow(!show)}
@@ -221,22 +127,26 @@ const NotificationSidebar = () => {
                 <OffcanvasHeader className='mt-1' toggle={() => setShow(!show)}>پیام ها
                     <hr/>
                 </OffcanvasHeader>
-                {notificationsArray.length !== 0 &&
-                    <OffcanvasBody className=''>
-                        <Row className='px-0 mx-0'>
-                            <Col className='px-0 mx-0'>
-                                {renderNotificationItems()}
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col className='text-center'>
-                                <Button className='round mt-3  opacity-50 btn-icon rounded-circle' color='danger'>
-                                    <X/>
-                                </Button>
-                            </Col>
-                        </Row>
-                    </OffcanvasBody>
-                }
+                <OffcanvasBody className='canvas-notification'>
+                    {data && data.resultData && data.resultData.requests && data.resultData.requests.length !== 0 &&
+                        <div>
+                            <Row className='px-0 mx-0'>
+                                <Col className='px-0 mx-0'>
+                                    {data && data.resultData && data.resultData.requests && renderNotificationItems()}
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col className='text-center'>
+                                    <Button className='round mt-3  opacity-50 btn-icon rounded-circle'
+                                            onClick={() => setData(null)}
+                                            color='danger'>
+                                        <X/>
+                                    </Button>
+                                </Col>
+                            </Row>
+                        </div>
+                    }
+                </OffcanvasBody>
                 <OffcanvasHeader className=''>
                     <Button color='flat-dark' outline onClick={linkProfile} className='text-body'>
                         <Avatar color='light-primary' icon={<User size={20}/>} className='my-1 me-1'/>

@@ -55,7 +55,7 @@ const TeamRequests = () => {
 
     const selectOptions = ['10', '25', '50']
 
-    const statusIcon = {
+    const statusClass = {
         REJECTED_REQUEST_STATUS: 'bg-light-danger',
         CONFIRMED_REQUEST_STATUS: 'bg-light-success',
         REGISTERED_REQUEST_STATUS: 'bg-light-warning'
@@ -94,7 +94,7 @@ const TeamRequests = () => {
                     <td className='text-nowrap'>{item.requestDate.substring(0, 16)}</td>
                     <td className='text-nowrap'>{item.type.name}</td>
                     <td className='text-nowrap'>
-                        <Badge pill className={statusIcon[item.status.code]}>
+                        <Badge pill className={statusClass[item.status.code]}>
                             {item.status.name}
                         </Badge>
                     </td>

@@ -6,7 +6,7 @@ const CustomPagination = ({count, current, perPage, searchFunc}) => {
         searchFunc(pageNum)
     }
     return (
-        <div className='d-flex d-flex justify-content-between flex-wrap align-items-center align-self-center mx-2 '>
+        <div className='d-flex d-flex justify-content-between flex-wrap align-items-center align-self-center mx-0 '>
             <div className=' align-items-center flex-fill mb-1 '>
                 <span>تعداد</span>
                 <span className='ps-1'>{((current - 1) * perPage) + 1}</span>
