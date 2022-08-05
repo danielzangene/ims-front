@@ -10,7 +10,7 @@ import {
     Row,
     UncontrolledDropdown
 } from 'reactstrap'
-import {Check, LogOut, User, X} from 'react-feather'
+import {Check, LogOut, Menu, User, X} from 'react-feather'
 import Avatar from '@components/avatar'
 import {useHistory} from "react-router-dom"
 import defaultAvatar from '@src/assets/images/portrait/small/avatar-s-1.jpg'
@@ -28,7 +28,7 @@ import {showErrorToast, showSuccessToast} from "../../../../utility/ToastUtils"
 
 const NotificationSidebar = () => {
 
-    const [show, setShow] = useState(true)
+    const [show, setShow] = useState(false)
     const [userData, setUserData] = useState(null)
     const [data, setData] = useState(null)
     const history = useHistory()
@@ -66,7 +66,6 @@ const NotificationSidebar = () => {
 
     const refresh = async () => {
         const d = await useFetchUrl("/api/v1/personnel/request/all/summary", "PATCH", null)
-        console.log(d)
         setData(d)
     }
 
@@ -74,7 +73,6 @@ const NotificationSidebar = () => {
 
     useEffect(async () => {
         await refresh()
-        console.log(useNotif)
     }, [])
 
     const acceptRequest = async (logId) => {
@@ -87,6 +85,21 @@ const NotificationSidebar = () => {
             showErrorToast(res.message)
         }
     }
+
+    const acceptAll = async () => {
+        data.resultData.requests.forEach(async (item) => {
+            await useFetchUrl("/api/v1/personnel/request/accept", "POST", {id: item.id})
+        })
+        useNotif.refresh('')
+    }
+
+    const rejectAll = async () => {
+        data.resultData.requests.forEach(async (item) => {
+            await useFetchUrl("/api/v1/personnel/request/reject", "POST", {id: item.id})
+        })
+        useNotif.refresh('')
+    }
+
     const rejectRequest = async (logId) => {
         const res = await useFetchUrl("/api/v1/personnel/request/reject", "POST", {id: logId})
         if (res.code === netConfig.okStatus) {
@@ -123,7 +136,6 @@ const NotificationSidebar = () => {
             },
             buttonsStyling: false
         }).then(function (result) {
-            console.log(result)
             if (result.isDismissed) {
                 if (result.dismiss === 'cancel') {
                     rejectRequest(item.id)
@@ -204,11 +216,27 @@ const NotificationSidebar = () => {
                                 </Col>
                             </Row>
                             <Row>
-                                <Col className='text-center'>
-                                    <Button className='round mt-3  opacity-50 btn-icon rounded-circle'
-                                            onClick={() => setData(null)}
-                                            color='danger'>
+                                <Col className='text-center mt-2'>
+                                    <Button color='flat-success' title='تایید همه درخواست ها'
+                                            className='btn-icon round rounded-circle waves-effect btn btn-outline-success'
+                                            onClick={() => {
+                                                acceptAll()
+                                            }}>
+                                        <Check/>
+                                    </Button>
+                                    <Button color='flat-danger' title='رد همه درخواست ها'
+                                            className='ms-1 btn-icon round rounded-circle waves-effect btn btn-outline-danger'
+                                            onClick={() => {
+                                                rejectAll()
+                                            }}>
                                         <X/>
+                                    </Button>
+                                    <Button color='flat-secondary' title='پاک کردن همه درخواست ها'
+                                            className='ms-1 btn-icon round rounded-circle waves-effect btn btn-outline-secondary'
+                                            onClick={() => {
+                                                setData(null)
+                                            }}>
+                                        <Menu/>
                                     </Button>
                                 </Col>
                             </Row>
