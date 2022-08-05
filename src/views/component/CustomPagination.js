@@ -25,22 +25,22 @@ const CustomPagination = ({count, current, perPage, searchFunc}) => {
                             </PaginationLink>
                         </PaginationItem>
                     }
-                    {current !== 1 &&
-                        <PaginationItem>
-                            <PaginationLink href='#'
-                                            onClick={() => searchFunc(current - 1)}>{current - 1}
-                            </PaginationLink>
-                        </PaginationItem>
-                    }
+                    {/*{current !== 1 &&*/}
+                    {/*    <PaginationItem>*/}
+                    {/*        <PaginationLink href='#'*/}
+                    {/*                        onClick={() => searchFunc(current - 1)}>{current - 1}*/}
+                    {/*        </PaginationLink>*/}
+                    {/*    </PaginationItem>*/}
+                    {/*}*/}
                     <PaginationItem active>
                         <PaginationLink href='#'>{current}</PaginationLink>
                     </PaginationItem>
-                    {current !== Math.ceil(count / perPage) &&
-                        <PaginationItem>
-                            <PaginationLink href='#'
-                                            onClick={() => searchFunc(current + 1)}>{current + 1}</PaginationLink>
-                        </PaginationItem>
-                    }
+                    {/*{current !== Math.ceil(count / perPage) &&*/}
+                    {/*    <PaginationItem>*/}
+                    {/*        <PaginationLink href='#'*/}
+                    {/*                        onClick={() => searchFunc(current + 1)}>{current + 1}</PaginationLink>*/}
+                    {/*    </PaginationItem>*/}
+                    {/*}*/}
                     {current !== Math.ceil(count / perPage) &&
                         <PaginationItem>
                             <PaginationLink href='#'
