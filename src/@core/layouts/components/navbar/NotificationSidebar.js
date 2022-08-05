@@ -1,4 +1,4 @@
-import {Fragment, useEffect, useState} from 'react'
+import {useEffect, useState} from 'react'
 import {
     Badge,
     Button,
@@ -10,21 +10,31 @@ import {
     Row,
     UncontrolledDropdown
 } from 'reactstrap'
+import {Check, LogOut, User, X} from 'react-feather'
 import Avatar from '@components/avatar'
-import {LogOut, User, X} from 'react-feather'
 import {useHistory} from "react-router-dom"
 import defaultAvatar from '@src/assets/images/portrait/small/avatar-s-1.jpg'
 import {getUserData, isUserLoggedIn, logoutHandler} from '@utils'
 import useFetchUrl from "../../../../utility/UseFetchUrl"
 import {useNotification} from "@notificationUtils"
+import netConfig from '@configs/netConfig'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
+import 'animate.css/animate.css'
+import '@styles/base/plugins/extensions/ext-component-sweet-alerts.scss'
+import {showErrorToast, showSuccessToast} from "../../../../utility/ToastUtils"
+
 
 const NotificationSidebar = () => {
 
-    const [show, setShow] = useState(false)
+    const [show, setShow] = useState(true)
     const [userData, setUserData] = useState(null)
     const [data, setData] = useState(null)
     const history = useHistory()
     const userAvatar = (userData && userData.avatar) || defaultAvatar
+
+    const MySwal = withReactContent(Swal)
 
     useEffect(() => {
         if (isUserLoggedIn()) {
@@ -53,42 +63,6 @@ const NotificationSidebar = () => {
         e.preventDefault()
         setShow(true)
     }
-    /*eslint-enable */
-    const renderNotificationItems = () => {
-        return data.resultData.requests.map((item, index) => {
-                return (
-                    <div key={index}>
-                        <a className='d-flex' href='/' onClick={e => e.preventDefault()}>
-                            <div className='list-item d-flex align-items-start'>
-                                <Fragment>
-                                    <div className='me-1'>
-                                        <Avatar
-                                            {...{
-                                                content: item.userName.split(" ").map(function (value) {
-                                                    return value[0]
-                                                }).join(""),
-                                                color: item.color
-                                            }}
-                                        />
-                                    </div>
-                                    <div className='list-item-body  flex-grow-1'>
-                                        <span className='fw-bolder'>{item.userName}</span>
-                                        <Badge pill
-                                               className={`${statusClass[item.type.code]} ms-1`}>{item.type.name}</Badge>
-                                        <p className='notification-text'>
-                                            {item.description && item.description.substring(0, 60)}
-                                            {item.description && item.description.length > 60 && `...`}
-                                        </p>
-                                    </div>
-                                </Fragment>
-                            </div>
-                        </a>
-                    </div>
-                )
-            }
-        )
-    }
-    /*eslint-enable */
 
     const refresh = async () => {
         const d = await useFetchUrl("/api/v1/personnel/request/all/summary", "PATCH", null)
@@ -102,6 +76,98 @@ const NotificationSidebar = () => {
         await refresh()
         console.log(useNotif)
     }, [])
+
+    const acceptRequest = async (logId) => {
+        const res = await useFetchUrl("/api/v1/personnel/request/accept", "POST", {id: logId})
+        if (res.code === netConfig.okStatus) {
+            await refresh()
+            showSuccessToast(res.message)
+            useNotif.refresh('NotificationSidebar')
+        } else {
+            showErrorToast(res.message)
+        }
+    }
+    const rejectRequest = async (logId) => {
+        const res = await useFetchUrl("/api/v1/personnel/request/reject", "POST", {id: logId})
+        if (res.code === netConfig.okStatus) {
+            await refresh()
+            showSuccessToast(res.message)
+            useNotif.refresh('NotificationSidebar')
+        } else {
+            showErrorToast(res.message)
+        }
+    }
+
+    const showRequest = async (e, item) => {
+        e.preventDefault()
+        return MySwal.fire({
+            title: item.userName,
+            text: item.description,
+            html: (
+                <div>
+                    <Badge pill className={`${statusClass[item.type.code]}  mb-1`}>
+                        {item.type.name}
+                    </Badge>
+                    <p>{item.description}</p>
+                </div>
+            ),
+            // 'You can use <b>bold text</b>, ' +
+            // '<a href="//sweetalert2.github.io">links</a> ' +
+            // 'and other HTML tags',
+            showCancelButton: true,
+            confirmButtonText: <Check/>,
+            cancelButtonText: <X/>,
+            customClass: {
+                confirmButton: 'btn-icon round rounded-circle waves-effect btn  btn btn-flat-success',
+                cancelButton: 'btn-icon round rounded-circle waves-effect btn btn-outline-danger btn btn-flat-danger ms-1 '
+            },
+            buttonsStyling: false
+        }).then(function (result) {
+            console.log(result)
+            if (result.isDismissed) {
+                if (result.dismiss === 'cancel') {
+                    rejectRequest(item.id)
+                }
+            } else if (result.isConfirmed) {
+                acceptRequest(item.id)
+            }
+        })
+    }
+
+    /*eslint-enable */
+    const renderNotificationItems = () => {
+        return data.resultData.requests.map((item, index) => {
+                return (
+                    <div key={index} className='border-bottom mb-1'>
+                        <a className='d-flex' href='/' onClick={e => showRequest(e, item)}>
+                            <div className='list-item d-flex align-items-start'>
+                                <div className='me-1'>
+                                    <Avatar
+                                        {...{
+                                            content: item.userName.split(" ").map(function (value) {
+                                                return value[0]
+                                            }).join(""),
+                                            color: item.color
+                                        }}
+                                    />
+                                </div>
+                                <div className='list-item-body  flex-grow-1'>
+                                    <span className='fw-bolder'>{item.userName}</span>
+                                    <Badge pill
+                                           className={`${statusClass[item.type.code]} ms-1`}>{item.type.name}</Badge>
+                                    <p className='notification-text'>
+                                        {item.description && item.description.substring(0, 60)}
+                                        {item.description && item.description.length > 60 && `...`}
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                )
+            }
+        )
+    }
+    /*eslint-enable */
 
     return (
         <div>

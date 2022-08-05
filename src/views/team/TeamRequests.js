@@ -22,7 +22,7 @@ const TeamRequests = () => {
         perPage: perPagRequest
     }
 
-    const useNotif = useNotification('TeamRequests', null)
+    let useNotif
 
     const refresh = async (currentPage, maxPageSize) => {
         pageSearch.pageNum = currentPage
@@ -30,6 +30,7 @@ const TeamRequests = () => {
         const d = await useFetchUrl("/api/v1/personnel/request/all", "PATCH", pageSearch)
         console.log(d)
         setData(d)
+        useNotif = useNotification('TeamRequests', () => refresh(currentPage, maxPageSize))
         useNotif.refresh('TeamRequests')
     }
 
