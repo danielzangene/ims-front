@@ -1,5 +1,6 @@
 import {lazy} from 'react'
 import cartable from "./cartable"
+import team from "./team"
 import dashboard from "./dashboard"
 
 // ** Document title
@@ -10,6 +11,7 @@ const DefaultRoute = '/home'
 
 // ** Merge Routes
 const Routes = [
+    ...team,
     ...dashboard,
     ...cartable,
   {

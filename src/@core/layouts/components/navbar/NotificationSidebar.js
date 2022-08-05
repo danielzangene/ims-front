@@ -108,7 +108,6 @@ const NotificationSidebar = () => {
         }
     ]
 
-    // ** Function to render Notifications
     /*eslint-disable */
     const renderNotificationItems = () => {
         return notificationsArray.map((item, index) => {

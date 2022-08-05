@@ -81,7 +81,7 @@ const MonthSummaryCard = (isVisible) => {
                 {data &&
                     <animated.div style={styles}>
                         <CardHeader>
-                            <CardTitle tag='h4'>{data.resultData.name} ماه</CardTitle>
+                            {/*<CardTitle tag='h4'>{data.resultData.name} ماه</CardTitle>*/}
                         </CardHeader>
                         <CardBody className='statistics-body'>
                             <Row>{renderData()}</Row>

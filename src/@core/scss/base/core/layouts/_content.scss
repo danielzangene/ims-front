@@ -12,6 +12,10 @@
 
 @import '../mixins/main-menu-mixin';
 
+.row-num-td{
+  width: 60px !important;
+}
+
 html {
   font-size: $base-font-size;
   height: 100%;

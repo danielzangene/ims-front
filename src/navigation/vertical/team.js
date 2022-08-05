@@ -5,6 +5,6 @@ export default [
         id: 'team',
         title: 'تیم',
         icon: <Users size={20}/>,
-        navLink: '/test'
+        navLink: '/team'
     }
 ]
