@@ -7,6 +7,7 @@ import {Check, X} from 'react-feather'
 import CustomPagination from "../component/CustomPagination"
 import useFetchUrl from "../../utility/UseFetchUrl"
 import {showErrorToast, showSuccessToast} from "../../utility/ToastUtils"
+import {useNotification} from "@notificationUtils"
 
 const TeamRequests = () => {
 
@@ -20,12 +21,16 @@ const TeamRequests = () => {
         pageNum: pageNumRequest,
         perPage: perPagRequest
     }
+
+    const useNotif = useNotification('TeamRequests', null)
+
     const refresh = async (currentPage, maxPageSize) => {
         pageSearch.pageNum = currentPage
         pageSearch.perPage = maxPageSize
         const d = await useFetchUrl("/api/v1/personnel/request/all", "PATCH", pageSearch)
         console.log(d)
         setData(d)
+        useNotif.refresh('TeamRequests')
     }
 
     const acceptRequest = async (logId) => {

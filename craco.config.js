@@ -26,6 +26,7 @@ module.exports = {
       '@utils': path.resolve(__dirname, 'src/utility/Utils'),
       '@toastUtils': path.resolve(__dirname, 'src/utility/ToastUtils'),
       '@startUtils': path.resolve(__dirname, 'src/utility/StartUtils'),
+      '@notificationUtils': path.resolve(__dirname, 'src/utility/NotificationUtils'),
       '@hooks': path.resolve(__dirname, 'src/utility/hooks')
     }
   }

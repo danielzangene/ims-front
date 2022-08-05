@@ -11,12 +11,12 @@ import {
     UncontrolledDropdown
 } from 'reactstrap'
 import Avatar from '@components/avatar'
-
 import {LogOut, User, X} from 'react-feather'
 import {useHistory} from "react-router-dom"
 import defaultAvatar from '@src/assets/images/portrait/small/avatar-s-1.jpg'
 import {getUserData, isUserLoggedIn, logoutHandler} from '@utils'
 import useFetchUrl from "../../../../utility/UseFetchUrl"
+import {useNotification} from "@notificationUtils"
 
 const NotificationSidebar = () => {
 
@@ -96,10 +96,12 @@ const NotificationSidebar = () => {
         setData(d)
     }
 
+    const useNotif = useNotification('NotificationSidebar', refresh)
+
     useEffect(async () => {
         await refresh()
+        console.log(useNotif)
     }, [])
-
 
     return (
         <div>
