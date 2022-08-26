@@ -5,6 +5,7 @@ import {getUserData} from '@utils'
 import Avatar from '@components/avatar'
 import {toast} from "react-toastify"
 import {FileText} from 'react-feather'
+import {useNotification} from "@notificationUtils"
 
 import netConfig from '@configs/netConfig'
 
@@ -12,14 +13,15 @@ let stompClient = null
 
 const NotifHandler = () => {
 
+    const refresh = () => {}
+
+    const useNotif = useNotification('NotifHandler', refresh)
+
     const onPrivateMessage = (payload) => {
-        console.log(JSON.parse(payload.body).description)
-        console.log(JSON.parse(payload.body).userName)
-        console.log(JSON.parse(payload.body).type.name)
-        console.log(JSON.parse(payload.body).type.code)
-        const pos = window.innerWidth > 1024 ? 'bottom-right' : 'bottom-center'
-        toast.error(<InfoToast payload={payload} />, { position: pos, icon: false, autoClose: 5000, hideProgressBar: true })
+        toast.info(<InfoToast payload={payload} />, { position: "bottom-right", icon: false, autoClose: 5000, hideProgressBar: true })
+        useNotif.refresh('')
     }
+
     const onConnected = async () => {
         await stompClient.subscribe(`/user/${getUserData().username}/notif`, onPrivateMessage)
     }
@@ -50,6 +52,7 @@ const NotifHandler = () => {
             </div>
         </Fragment>
     )
+
     useEffect(() => {
         connect()
     }, [])
