@@ -12,6 +12,7 @@ import {Button, NavItem, NavLink} from 'reactstrap'
 import StartFootWorkLog from "./StartFootWorkLog"
 import { useSkin } from '@hooks/useSkin'
 import NotificationSidebar from "./NotificationSidebar"
+import NotifHandler from "./NotifHandler"
 
 const NavbarUser = () => {
     // ** Props
@@ -39,6 +40,7 @@ const NavbarUser = () => {
             <ul className='nav navbar-nav align-items-center ms-auto'>
                 <StartFootWorkLog />
                 <NotificationSidebar/>
+                <NotifHandler/>
             </ul>
         </Fragment>
     )
