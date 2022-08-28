@@ -25,7 +25,7 @@ const StartFootWorkLog = () => {
             setStart(true)
             setButtonClassNames('round waves-effect btn btn-outline-success')
             const h = parseInt(res.resultData.totalDay.substring(0, 2))
-            const m = parseInt(res.resultData.totalDay.substring(2, 4))
+            const m = parseInt(res.resultData.totalDay.substring(3, 5))
             const sec = getSeconds(h, m)
             setCounter(sec)
         } else {
@@ -43,7 +43,7 @@ const StartFootWorkLog = () => {
             if (res.code === netConfig.okStatus) {
                 setStart(true)
                 const h = parseInt(res.resultData.totalDay.substring(0, 2))
-                const m = parseInt(res.resultData.totalDay.substring(2, 4))
+                const m = parseInt(res.resultData.totalDay.substring(3, 5))
                 const sec = getSeconds(h, m)
                 setCounter(sec)
                 useStart.refresh('StartFootWorkLog')
@@ -58,7 +58,6 @@ const StartFootWorkLog = () => {
                 document.title = netConfig.app.appName
                 useStart.refresh('StartFootWorkLog')
                 document.title = netConfig.app.appName
-
             } else {
                 showErrorToast(res.message)
             }

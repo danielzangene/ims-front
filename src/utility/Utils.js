@@ -107,3 +107,7 @@ export const selectThemeColors = theme => ({
 export const addStr = (str, index, stringToAdd) => {
   return str.substring(0, index) + stringToAdd + str.substring(index, str.length)
 }
+
+export const formatTime = (hour, minute) => {
+  return `${hour}:${minute}`
+}

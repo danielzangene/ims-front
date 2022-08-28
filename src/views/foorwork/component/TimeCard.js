@@ -8,7 +8,6 @@ import {showErrorToast, showSuccessToast} from '@toastUtils'
 import '@styles/react/libs/input-number/input-number.scss'
 import TimeCardLog from "./TimeCardLog"
 import useFetchUrl from "../../../utility/UseFetchUrl"
-import {addStr} from '@utils'
 import {animated, useSpring} from 'react-spring'
 import SimpleLoading from "../../component/SimpleLoading"
 
@@ -87,7 +86,8 @@ const TimeCard = (props) => {
         const footLog = {
             id: id ? id : null,
             date: timeData.date,
-            time: `${String(log.hour).padStart(2, '0')}${String(log.min).padStart(2, '0')}`,
+            hour: log.hour,
+            minute: log.min,
             desc: log.desc
         }
         const res = await useFetchUrl("/api/v1/personnel/footwork/log", "POST", footLog)
@@ -113,13 +113,13 @@ const TimeCard = (props) => {
                         <div>
                             <small className='text-light'>{formattedDate}</small>
                             <br/>
-                            <small className='text-light opacity-50'>{timeData && addStr(timeData.totalDay, 2, ":")}</small>
+                            <small className='text-light opacity-50'>{timeData && timeData.totalDay}</small>
                         </div>
                     </div>
                 </UILoader>
                 <div className='foot-work-details'>
                     {timeData && timeData.footWorks && timeData.footWorks.map((item, index) => (
-                        <div key={item && `log-${item.time}${item.id}`}>
+                        <div key={item && `${item.id}`}>
                             <TimeCardLog data={item} index={index} logActions={logActions}/>
                         </div>
                     ))}

@@ -5,7 +5,6 @@ import Spinner from '@components/spinner/Loading-spinner'
 import {animated, useSpring} from 'react-spring'
 import {Check, Minus, X} from 'react-feather'
 import {useStartDay} from "@startUtils"
-import {addStr} from '@utils'
 import useFetchUrl from "../../utility/UseFetchUrl"
 
 const WeekSummaryTable = (isVisible) => {
@@ -62,13 +61,13 @@ const WeekSummaryTable = (isVisible) => {
                     <td className='text-nowrap text-success'>
                         <div className='d-flex flex-column'>
                             {!tomorrow &&
-                                <span className='fw-bolder mb-25'>{col.totalDay && addStr(col.totalDay, 2, ":")}</span>}
+                                <span className='fw-bolder mb-25'>{col.totalDay && col.totalDay}</span>}
                         </div>
                     </td>
                     <td className='text-nowrap text-danger'>
                         <div className='d-flex flex-column'>
                             {!tomorrow && <span
-                                className='fw-bolder mb-25'>{col.totalLessDay && addStr(col.totalLessDay, 2, ":")}</span>}
+                                className='fw-bolder mb-25'>{col.totalLessDay && col.totalLessDay}</span>}
                         </div>
                     </td>
                 </tr>

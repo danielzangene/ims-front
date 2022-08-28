@@ -5,7 +5,6 @@ import {Card, CardBody, CardHeader, CardText, CardTitle, Col, Row} from 'reactst
 import UILoader from '@components/ui-loader'
 import Spinner from '@components/spinner/Loading-spinner'
 import {animated, useSpring} from 'react-spring'
-import {addStr} from '@utils'
 import {useStartDay} from "@startUtils"
 import useFetchUrl from "../../utility/UseFetchUrl"
 
@@ -63,10 +62,10 @@ const MonthSummaryCard = (isVisible) => {
                         <Avatar color={item.color} icon={item.icon} className='me-2'/>
                         <div className='my-auto'>
                             {index === 0 &&
-                                <h2 className='fw-bolder mb-0'>{data.resultData && addStr(data.resultData[item.title], data.resultData[item.title].length - 2, ':')}</h2>
+                                <h2 className='fw-bolder mb-0'>{data.resultData && data.resultData[item.title]}</h2>
                             }
                             {index !== 0 &&
-                                <h4 className='fw-bolder mb-0'>{data.resultData && addStr(data.resultData[item.title], data.resultData[item.title].length - 2, ':')}</h4>
+                                <h4 className='fw-bolder mb-0'>{data.resultData && data.resultData[item.title]}</h4>
                             }{item.subtitle && <CardText className='font-small-3 mb-0'>{item.subtitle}</CardText>}
                         </div>
                     </div>

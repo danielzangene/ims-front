@@ -9,7 +9,6 @@ import {
     UncontrolledPopover
 } from 'reactstrap'
 import {Check, ChevronsLeft, ChevronsRight, Edit3, Trash, X} from 'react-feather'
-import {addStr} from '@utils'
 
 
 const TimeCardLog = ({data, index, logActions}) => {
@@ -46,12 +45,12 @@ const TimeCardLog = ({data, index, logActions}) => {
              onMouseEnter={onHover}
              onMouseLeave={onHoverLeave}
         >
-            <UncontrolledDropdown className='time-card-log-dropdown w-100' id={`logtime-${data.time}${data.id}`}>
+            <UncontrolledDropdown className='time-card-log-dropdown w-100' id={`logtime-${data.id}`}>
                 <UncontrolledPopover
                     trigger='focus'
                     isOpen={popoverOpen}
                     placement='top'
-                    target={`logtime-${data.time}${data.id}`}>
+                    target={`logtime-${data.id}`}>
                     <PopoverHeader className={statusClassName[data.status.code]}>{data.status.name}</PopoverHeader>
                     {data && data.desc &&
                         <PopoverBody>
@@ -66,7 +65,7 @@ const TimeCardLog = ({data, index, logActions}) => {
                             {index % 2 === 0 ? <ChevronsLeft size={20}/> : <ChevronsRight size={20}/>}
                             <small
                                 className={index % 2 === 0 ? 'text-secondary text-success' : 'text-secondary text-danger'}>
-                                {data && addStr(data.time, 2, ":")}
+                                {data && data.time}
                             </small>
                         </div>
                         {statusIcons[data.status.code]}

@@ -4,7 +4,6 @@ import UILoader from '@components/ui-loader'
 import Spinner from '@components/spinner/Loading-spinner'
 import {animated, useSpring} from 'react-spring'
 import {Card, CardBody} from 'reactstrap'
-import {addStr} from "../../utility/Utils"
 import useFetchUrl from "../../utility/UseFetchUrl"
 import {useStartDay} from "@startUtils"
 
@@ -71,7 +70,7 @@ const MonthAllDayChart = (isVisible) => {
                     fontSize: '1rem'
                 },
                 formatter(val) {
-                    return val === 0 ? '' : val < 999 ? addStr(`0${val}`, 2, ":") : addStr(`${val}`, 2, ":")
+                    return val
                 }
             }
         },

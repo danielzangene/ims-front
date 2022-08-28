@@ -7,7 +7,6 @@ import Spinner from '@components/spinner/Loading-spinner'
 import useFetchUrl from "../../utility/UseFetchUrl"
 import netConfig from '@configs/netConfig'
 import {useStartDay} from "@startUtils"
-import {addStr} from '@utils'
 import {animated, useSpring} from 'react-spring'
 import {showErrorToast} from "../../utility/ToastUtils"
 
@@ -89,7 +88,7 @@ const FootWork = (isVisible) => {
                                 </Col>
                                 <Col className='col-8 my-auto text-center align-middle'>
                                     <div>
-                                        <h6>{totalWeek && `جمع هفته    |    ${addStr(totalWeek, 2, ":")}`}</h6>
+                                        <h6>{totalWeek && `جمع هفته    |    ${totalWeek}`}</h6>
                                         <small
                                             className='text-muted'>{data && data.resultData && data.resultData.fromTo}</small>
                                     </div>
