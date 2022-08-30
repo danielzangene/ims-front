@@ -88,7 +88,7 @@ const Dining = () => {
                     <div key={`_${item.date}`}>
                         <Row className=' align-items-center pt-1 border-bottom'>
                             <Col className='d-flex justify-content-center col-lg-3 col-md-12 col-sm-12 col-xs-12'>
-                                <Button color={item.enable && 'flat-primary'} disabled={!item.enable}
+                                <Button color={item.enable ? 'flat-primary' : ''} disabled={!item.enable}
                                         className='pb-1 waves-effect btn btn-outline-none'
                                         onClick={() => {
                                             showSelectedDayModal(item)
@@ -123,11 +123,11 @@ const Dining = () => {
                         <ModalBody className='px-sm-5 mx-50 pb-5'>
                             <h3 className='text-center mb-2 '>{selectedDay.formattedDate}</h3>
                             <DiningItem date={selectedDay.date} formattedDate={selectedDay.formattedDate}
-                                        enable={item.enable} foodType={0}/>
+                                        enable={selectedDay.enable} foodType={0}/>
                             <DiningItem date={selectedDay.date} formattedDate={selectedDay.formattedDate}
-                                        enable={item.enable} foodType={1}/>
+                                        enable={selectedDay.enable} foodType={1}/>
                             <DiningItem date={selectedDay.date} formattedDate={selectedDay.formattedDate}
-                                        enable={item.enable} foodType={2}/>
+                                        enable={selectedDay.enable} foodType={2}/>
                         </ModalBody>
                     </UILoader>
                 </Modal>
