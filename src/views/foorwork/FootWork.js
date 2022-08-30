@@ -10,7 +10,7 @@ import {useStartDay} from "@startUtils"
 import {animated, useSpring} from 'react-spring'
 import {showErrorToast} from "../../utility/ToastUtils"
 
-const FootWork = (isVisible) => {
+const FootWork = () => {
 
     const [data, setData] = useState(null)
     const [totalWeek, setTotalWeek] = useState(null)
@@ -19,8 +19,8 @@ const FootWork = (isVisible) => {
     const [weekOfToday, setWeekOfToday] = useState(0)
     const requestBody = {weekOfToday}
     const styles = useSpring({
-        opacity: isVisible ? 1 : 0,
-        y: isVisible ? 0 : 24
+        opacity: data ? 1 : 0,
+        x: data ? 0 : 50
     })
 
     const refresh = async () => {
