@@ -89,7 +89,7 @@ const Dining = () => {
                         <Row className=' align-items-center pt-1 border-bottom'>
                             <Col className='d-flex justify-content-center col-lg-3 col-md-12 col-sm-12 col-xs-12'>
                                 <Button color={item.enable ? 'flat-primary' : ''} disabled={!item.enable}
-                                        className='pb-1 waves-effect btn btn-outline-none'
+                                        className='pb-1 waves-effect btn btn-outline-none' block
                                         onClick={() => {
                                             showSelectedDayModal(item)
                                         }}>
