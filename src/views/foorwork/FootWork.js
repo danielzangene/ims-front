@@ -102,12 +102,12 @@ const FootWork = (isVisible) => {
                         }
                     </CardBody>
                     <CardBody className='foot-work-week-sheet'>
-                        <Row>
+                        <Row className='seven-cols'>
                             {timeSheet && timeSheet.map((item) => (
-                                <Col key={item && `day-${item.date}${Math.floor(Math.random() * 100)}`}>
+                                <div key={item && `day-${item.date}${Math.floor(Math.random() * 100)}`} className='col-1-1'>
                                     <TimeCard data={item && item} today={item.date === today}
                                               refreshToDay={refreshToDay} refresh={refresh}/>
-                                </Col>
+                                </div>
                             ))}
                         </Row>
                     </CardBody>

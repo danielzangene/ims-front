@@ -349,14 +349,72 @@
   }
 }
 
+
+@media (min-width: 300px) {
+  .seven-cols .col-1-1{
+    width: 100%;
+    *width: 100%;
+  }
+  .display-none{
+    //opacity: 0 !important;
+  }
+}
+@media (min-width: 576px) {
+  .seven-cols .col-1-1{
+    width: 100%;
+    *width: 100%;
+  }
+  .display-none{
+    //opacity: 0 !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .seven-cols .col-1-1{
+    width: 100%;
+    *width: 100%;
+  }
+  .display-none{
+    //opacity: 0 !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .seven-cols .col-1-1{
+    width: 14.285714285714285714285714285714%;
+    *width: 14.285714285714285714285714285714%;
+  }
+  .time-card-body {
+    min-height: 400px;
+  }
+  .foot-work-week-sheet{
+    min-height: 400px;
+  }
+}
+
+/**
+ *  The following is not really needed in this case
+ *  Only to demonstrate the usage of @media for large screens
+ */
+@media (min-width: 1200px) {
+  .seven-cols .col-1-1{
+    width: 14.285714285714285714285714285714%;
+    *width: 14.285714285714285714285714285714%;
+  }
+  .time-card-body {
+    min-height: 400px;
+  }
+  .foot-work-week-sheet{
+    min-height: 400px;
+  }
+}
+
 .foot-work-week-sheet {
   .row {
     --bs-gutter-x: 1rem
   }
 }
-.foot-work-week-sheet{
-    min-height: 400px;
-}
+
 .btn-play-icon{
     margin-right: 4px;
 }
@@ -375,7 +433,6 @@
   border-right: 1px dashed #e0e0e0;
 }
   .time-card-body {
-    min-height: 400px;
     padding: 0 !important;
   }
   .time-card-header {

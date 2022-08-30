@@ -2,6 +2,7 @@ import {lazy} from 'react'
 import cartable from "./cartable"
 import team from "./team"
 import dashboard from "./dashboard"
+import dining from "./dining"
 
 // ** Document title
 const TemplateTitle = '%s - سامانه مدیریتی'
@@ -14,6 +15,7 @@ const Routes = [
     ...team,
     ...dashboard,
     ...cartable,
+    ...dining,
   {
     path: '/profile',
     component: lazy(() => import('../../views/Profile'))

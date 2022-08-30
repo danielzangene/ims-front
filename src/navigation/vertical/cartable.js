@@ -3,7 +3,7 @@ import {Circle, Layers} from 'react-feather'
 export default [
     {
         id: 'cartable',
-        title: 'کارتابل',
+        title: 'کارکرد',
         icon: <Layers/>,
         children: [
             {

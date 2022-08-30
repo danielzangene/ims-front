@@ -117,7 +117,7 @@ const TimeCard = (props) => {
                         </div>
                     </div>
                 </UILoader>
-                <div className='foot-work-details'>
+                <div className='foot-work-details display-none'>
                     {timeData && timeData.footWorks && timeData.footWorks.map((item, index) => (
                         <div key={item && `${item.id}`}>
                             <TimeCardLog data={item} index={index} logActions={logActions}/>
@@ -125,11 +125,11 @@ const TimeCard = (props) => {
                     ))}
                 </div>
                 {today && data.footWorks.length % 2 !== 0 && data.footWorks.length !== 0 &&
-                    <div className="d-flex justify-content-center mt-1 opacity-25">
+                    <div className="d-flex justify-content-center mt-1 opacity-25 display-none">
                         <SimpleLoading/>
                     </div>
                 }
-                <div className='d-grid my-1'>
+                <div className='d-grid my-1 display-none'>
                     <Button color='flat-success' className='round waves-effect' onClick={addNewLogWindow}>
                         <Plus size={14}/>
                     </Button>
