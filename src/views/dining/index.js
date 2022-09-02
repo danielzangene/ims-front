@@ -24,7 +24,6 @@ const Dining = () => {
     const refresh = async (threshold) => {
 
         const d = await useFetchUrl("/api/v1/personnel/dining/month", "PATCH", {monthFromNow: threshold})
-        console.log(d)
         if (d.code === netConfig.okStatus) {
 
             setVisible(false)
@@ -67,7 +66,6 @@ const Dining = () => {
     }
 
     useEffect(async () => {
-        console.log(selectedDay)
     }, [selectedDay])
 
     const styles = useSpring({
@@ -110,18 +108,34 @@ const Dining = () => {
                                         {item.formattedDate}
                                     </Button>
                                 </Col>
-                                <Col className='d-flex justify-content-center col-lg-3 col-md-4 d-none d-md-block'>
-                                    <DiningItem date={item.date} formattedDate={item.formattedDate} enable={item.enable}
-                                                foodType={0}/>
-                                </Col>
-                                <Col className='d-flex justify-content-center col-lg-3 col-md-4 d-none d-md-block'>
-                                    <DiningItem date={item.date} formattedDate={item.formattedDate} enable={item.enable}
-                                                foodType={1}/>
-                                </Col>
-                                <Col className='d-flex justify-content-center col-lg-3 col-md-4 d-none d-md-block'>
-                                    <DiningItem date={item.date} formattedDate={item.formattedDate} enable={item.enable}
-                                                foodType={2}/>
-                                </Col>
+                                {window.innerWidth > 960 &&
+                                    <Col className='d-flex justify-content-center col-lg-3 col-md-4 d-none d-md-block'>
+                                        <DiningItem date={item.date}
+                                                    reserved={data.resultData.reservedDates.indexOf(item.date) > -1}
+                                                    formattedDate={item.formattedDate}
+                                                    enable={item.enable}
+                                                    foodType={0}/>
+                                    </Col>
+                                }
+                                {window.innerWidth > 960 &&
+                                    <Col className='d-flex justify-content-center col-lg-3 col-md-4 d-none d-md-block'>
+                                        <DiningItem date={item.date}
+                                                    reserved={data.resultData.reservedDates.indexOf(item.date) > -1}
+                                                    formattedDate={item.formattedDate}
+                                                    enable={item.enable}
+                                                    foodType={1}/>
+                                    </Col>
+                                }
+
+                                {window.innerWidth > 960 &&
+                                    <Col className='d-flex justify-content-center col-lg-3 col-md-4 d-none d-md-block'>
+                                        <DiningItem date={item.date}
+                                                    reserved={data.resultData.reservedDates.indexOf(item.date) > -1}
+                                                    formattedDate={item.formattedDate}
+                                                    enable={item.enable}
+                                                    foodType={2}/>
+                                    </Col>
+                                }
                             </Row>
                         </div>
                     </animated.div>
@@ -137,12 +151,21 @@ const Dining = () => {
                         <ModalHeader className='bg-transparent' toggle={() => setShow(!show)}></ModalHeader>
                         <ModalBody className='px-sm-5 mx-50 pb-5'>
                             <h3 className='text-center mb-2 '>{selectedDay.formattedDate}</h3>
-                            <DiningItem date={selectedDay.date} formattedDate={selectedDay.formattedDate}
-                                        enable={selectedDay.enable} foodType={0}/>
-                            <DiningItem date={selectedDay.date} formattedDate={selectedDay.formattedDate}
-                                        enable={selectedDay.enable} foodType={1}/>
-                            <DiningItem date={selectedDay.date} formattedDate={selectedDay.formattedDate}
-                                        enable={selectedDay.enable} foodType={2}/>
+                            <DiningItem date={selectedDay.date}
+                                        reserved={true}
+                                        formattedDate={selectedDay.formattedDate}
+                                        enable={selectedDay.enable}
+                                        foodType={0}/>
+                            <DiningItem date={selectedDay.date}
+                                        reserved={true}
+                                        formattedDate={selectedDay.formattedDate}
+                                        enable={selectedDay.enable}
+                                        foodType={1}/>
+                            <DiningItem date={selectedDay.date}
+                                        reserved={true}
+                                        formattedDate={selectedDay.formattedDate}
+                                        enable={selectedDay.enable}
+                                        foodType={2}/>
                         </ModalBody>
                     </UILoader>
                 </Modal>
