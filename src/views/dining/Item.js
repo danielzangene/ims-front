@@ -1,17 +1,15 @@
 import UILoader from '@components/ui-loader'
 import {useEffect, useState} from 'react'
-import {Input} from 'reactstrap'
-import {animated, useSpring} from 'react-spring'
-
-// import useFetchUrl from "../../utility/UseFetchUrl";
-import useFetch from "../../utility/UseFetch"
+import {Input, Dropdown} from 'reactstrap'
 import {showSuccessToast} from "../../utility/ToastUtils"
+import useFetchUrl from "../../utility/UseFetchUrl"
 
 const DiningItem = (props) => {
     const {formattedDate, enable, date, foodType} = props
     const reqBody = {date, foodType}
     const [classStyle, setClassStyle] = useState('')
-    const {data} = useFetch("/api/v1/personnel/dining/food", "PATCH", reqBody)
+    const [isPending, setIsPending] = useState(false)
+    const [data, setData] = useState(null)
 
 
     const types = {
@@ -37,31 +35,29 @@ const DiningItem = (props) => {
         }
     }
 
-    useEffect(() => {
-            // if (data.selected) {
-            //     setClassStyle('is-valid form-control border-success')
-            // }
+    const loadData = async () => {
+        if (!data) {
+            setIsPending(true)
+            const d = await useFetchUrl("/api/v1/personnel/dining/food", "PATCH", reqBody)
+            setData(d)
+            setIsPending(false)
+        }
+    }
+
+    useEffect(async () => {
         }, []
     )
 
-    const styles = useSpring({
-        opacity: data ? 1 : 0,
-        y: data ? 0 : 24
-    })
-
     return (
-        <UILoader blocking={!data} className='pb-1'>
-            <animated.div style={styles}>
-                <Input className={classStyle} type='select' disabled={!enable}
-                       onChange={(e) => selectItem(e)} /*defaultValue={data.selected}*/>
-                    {data &&
-                        <option value="">{types[foodType]}</option>
-                    }
-                    {data && data.resultData.map((element) => (
-                        <option key={element.id} value={element.id}>{element.name}</option>
-                    ))}
-                </Input>
-            </animated.div>
+        <UILoader blocking={isPending} className='pb-1'>
+            <Input className={classStyle} type='select' disabled={!enable}
+                   onClick={(e) => loadData(e)}
+                   onChange={(e) => selectItem(e)}>
+                <option value="">{types[foodType]}</option>
+                {data && data.resultData.map((element) => (
+                    <option key={element.id} value={element.id}>{element.name}</option>
+                ))}
+            </Input>
         </UILoader>
     )
 }

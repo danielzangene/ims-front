@@ -7,6 +7,7 @@ import useFetchUrl from "../../utility/UseFetchUrl"
 import {showErrorToast} from "../../utility/ToastUtils"
 import Spinner from '@components/spinner/Loading-spinner'
 import UILoader from '@components/ui-loader'
+import {animated, useSpring} from 'react-spring'
 
 
 const Dining = () => {
@@ -15,15 +16,22 @@ const Dining = () => {
     const [data, setData] = useState(null)
     const [selectedDay, setSelectedDay] = useState(null)
     const [monthFromNow, setMonthFromNow] = useState(0)
+    const [visisble, setVisible] = useState(false)
     const [show, setShow] = useState(true)
     const [blockWindow] = useState(false)
 
 
     const refresh = async (threshold) => {
+
         const d = await useFetchUrl("/api/v1/personnel/dining/month", "PATCH", {monthFromNow: threshold})
         console.log(d)
         if (d.code === netConfig.okStatus) {
-            setData(d)
+
+            setVisible(false)
+            setTimeout(() => {
+                setData(d)
+                setVisible(true)
+            }, 100)
             return true
         } else {
             showErrorToast(d.message)
@@ -62,6 +70,11 @@ const Dining = () => {
         console.log(selectedDay)
     }, [selectedDay])
 
+    const styles = useSpring({
+        opacity: visisble ? 1 : 0,
+        x: visisble ? 0 : 24
+    })
+
     return (
         <Card>
             <CardBody>
@@ -85,31 +98,33 @@ const Dining = () => {
                 }
 
                 {data && data.resultData.days.map((item) => (
-                    <div key={`_${item.date}`}>
-                        <Row className=' align-items-center pt-1 border-bottom'>
-                            <Col className='d-flex justify-content-center col-lg-3 col-md-12 col-sm-12 col-xs-12'>
-                                <Button color={item.enable ? 'flat-primary' : ''} disabled={!item.enable}
-                                        className='pb-1 waves-effect btn btn-outline-none' block
-                                        onClick={() => {
-                                            showSelectedDayModal(item)
-                                        }}>
-                                    {item.formattedDate}
-                                </Button>
-                            </Col>
-                            <Col className='d-flex justify-content-center col-lg-3 col-md-4 d-none d-md-block'>
-                                <DiningItem date={item.date} formattedDate={item.formattedDate} enable={item.enable}
-                                            foodType={0}/>
-                            </Col>
-                            <Col className='d-flex justify-content-center col-lg-3 col-md-4 d-none d-md-block'>
-                                <DiningItem date={item.date} formattedDate={item.formattedDate} enable={item.enable}
-                                            foodType={1}/>
-                            </Col>
-                            <Col className='d-flex justify-content-center col-lg-3 col-md-4 d-none d-md-block'>
-                                <DiningItem date={item.date} formattedDate={item.formattedDate} enable={item.enable}
-                                            foodType={2}/>
-                            </Col>
-                        </Row>
-                    </div>
+                    <animated.div style={styles} key={`_${item.date}`}>
+                        <div>
+                            <Row className=' align-items-center pt-1 border-bottom'>
+                                <Col className='d-flex justify-content-center col-lg-3 col-md-12 col-sm-12 col-xs-12'>
+                                    <Button color={item.enable ? 'flat-primary' : ''} disabled={!item.enable}
+                                            className='pb-1 waves-effect btn btn-outline-none' block
+                                            onClick={() => {
+                                                showSelectedDayModal(item)
+                                            }}>
+                                        {item.formattedDate}
+                                    </Button>
+                                </Col>
+                                <Col className='d-flex justify-content-center col-lg-3 col-md-4 d-none d-md-block'>
+                                    <DiningItem date={item.date} formattedDate={item.formattedDate} enable={item.enable}
+                                                foodType={0}/>
+                                </Col>
+                                <Col className='d-flex justify-content-center col-lg-3 col-md-4 d-none d-md-block'>
+                                    <DiningItem date={item.date} formattedDate={item.formattedDate} enable={item.enable}
+                                                foodType={1}/>
+                                </Col>
+                                <Col className='d-flex justify-content-center col-lg-3 col-md-4 d-none d-md-block'>
+                                    <DiningItem date={item.date} formattedDate={item.formattedDate} enable={item.enable}
+                                                foodType={2}/>
+                                </Col>
+                            </Row>
+                        </div>
+                    </animated.div>
                 ))}
             </CardBody>
             {selectedDay &&
