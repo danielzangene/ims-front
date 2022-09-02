@@ -3,6 +3,7 @@ import cartable from "./cartable"
 import team from "./team"
 import dashboard from "./dashboard"
 import dining from "./dining"
+import chat from "./chat"
 
 // ** Document title
 const TemplateTitle = '%s - سامانه مدیریتی'
@@ -13,6 +14,7 @@ const DefaultRoute = '/home'
 // ** Merge Routes
 const Routes = [
     ...team,
+    ...chat,
     ...dashboard,
     ...cartable,
     ...dining,
