@@ -5,13 +5,13 @@ import team from "./team"
 import setting from "./setting"
 import profile from "./profile"
 import dining from "./dining"
-import chat from "./chat"
+// import chat from "./chat"
 
 export default [
     ...dashboard,
     ...profile,
     ...team,
-    ...chat,
+    // ...chat,
     ...cartable,
     ...dining,
     ...setting,

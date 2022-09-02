@@ -141,7 +141,6 @@ const AppChat = () => {
       ]
     }
   ]
-
   const store = {
     chats: [
       {
