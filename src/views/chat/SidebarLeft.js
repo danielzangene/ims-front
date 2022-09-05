@@ -1,19 +1,19 @@
 // ** React Imports
-import { useState, useEffect } from 'react'
+import {useEffect, useState} from 'react'
 
 // ** Custom Components
 import Avatar from '@components/avatar'
+import {Bell, CheckSquare, Search, Trash, User, X} from 'react-feather'
 
 // ** Utils
-import { formatDateToMonthShort, isObjEmpty } from '@utils'
+import {formatDateToMonthShort, isObjEmpty} from '@utils'
 
 // ** Third Party Components
 import classnames from 'classnames'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import { X, Search, CheckSquare, Bell, User, Trash } from 'react-feather'
 
 // ** Reactstrap Imports
-import { CardText, InputGroup, InputGroupText, Badge, Input, Button, Label } from 'reactstrap'
+import {Badge, Button, CardText, Input, InputGroup, InputGroupText, Label} from 'reactstrap'
 
 const SidebarLeft = props => {
   // ** Props & Store
@@ -75,7 +75,7 @@ const SidebarLeft = props => {
                 active: active === item.id
               })}
             >
-              <Avatar img={item.avatar} imgHeight='42' imgWidth='42' status={item.status} />
+              <Avatar  icon={<User size={20}/>} imgHeight='42' imgWidth='42' status={item.status} />
               <div className='chat-info flex-grow-1'>
                 <h5 className='mb-0'>{item.fullName}</h5>
                 <CardText className='text-truncate'>
@@ -158,7 +158,7 @@ const SidebarLeft = props => {
               <X size={14} />
             </div>
             <div className='header-profile-sidebar'>
-              <Avatar className='box-shadow-1 avatar-border' img={userProfile.avatar} status={status} size='xl' />
+              <Avatar className='box-shadow-1 avatar-border'  icon={<User size={20}/>} status={status} size='xl' />
               <h4 className='chat-user-name'>{userProfile.fullName}</h4>
               <span className='user-post'>{userProfile.role}</span>
             </div>
@@ -286,7 +286,7 @@ const SidebarLeft = props => {
                 {Object.keys(userProfile).length ? (
                   <Avatar
                     className='avatar-border'
-                    img={userProfile.avatar}
+                    icon={<User size={20}/>}
                     status={status}
                     imgHeight='42'
                     imgWidth='42'
@@ -307,7 +307,7 @@ const SidebarLeft = props => {
             </div>
           </div>
           <PerfectScrollbar className='chat-user-list-wrapper list-group' options={{ wheelPropagation: false }}>
-            <h4 className='chat-list-title'>Chats</h4>
+            {/*<h4 className='chat-list-title'>Chats</h4>*/}
             <ul className='chat-users-list chat-list media-list'>{renderChats()}</ul>
             {/*<h4 className='chat-list-title'>Contacts</h4>*/}
             {/*<ul className='chat-users-list contact-list media-list'>{renderContacts()}</ul>*/}

@@ -148,7 +148,7 @@ const AppChat = () => {
         fullName: "Felecia Rower",
         role: "Frontend Developer",
         about: "Cake pie jelly jelly beans. Marzipan lemon drops halvah cake. Pudding cookie lemon drops icing",
-        avatar: "/static/media/avatar-s-2.d21f2121.jpg",
+        avatar: "/static/media/avatar-s-1.d383013d.jpg",
         status: "offline",
         chat: {
           id: 1,
@@ -184,7 +184,7 @@ const AppChat = () => {
         fullName: "Felecia Rower",
         role: "Frontend Developer",
         about: "Cake pie jelly jelly beans. Marzipan lemon drops halvah cake. Pudding cookie lemon drops icing",
-        avatar: "/static/media/avatar-s-2.d21f2121.jpg",
+        avatar: "/static/media/avatar-s-1.d383013d.jpg",
         status: "offline",
         chat: {
           id: 1,
@@ -280,7 +280,7 @@ const AppChat = () => {
     ],
     userProfile: {
       id: 11,
-      avatar: "/static/media/avatar-s-11.1d46cc62.jpg",
+      avatar: "/static/media/avatar-s-1.d383013d.jpg",
       fullName: "John Doe",
       role: "admin",
       about: "Dessert chocolate cake lemon drops jujubes. Biscuit cupcake ice cream bear claw brownie brownie marshmallow.",

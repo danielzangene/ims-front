@@ -1,34 +1,33 @@
 // ** React Imports
 import ReactDOM from 'react-dom'
-import { useState, useEffect, useRef } from 'react'
+import {useEffect, useRef, useState} from 'react'
 
 // ** Custom Components
 import Avatar from '@components/avatar'
+import {Image, Menu, MessageSquare, Mic, MoreVertical, PhoneCall, Search, Send, User, Video} from 'react-feather'
 
 // ** Store & Actions
-
 // ** Third Party Components
 import classnames from 'classnames'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import { MessageSquare, Menu, PhoneCall, Video, Search, MoreVertical, Mic, Image, Send } from 'react-feather'
 
 // ** Reactstrap Imports
 import {
-  Form,
-  Label,
-  Input,
   Button,
-  InputGroup,
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
+  Form,
+  Input,
+  InputGroup,
   InputGroupText,
+  Label,
   UncontrolledDropdown
 } from 'reactstrap'
 
 const ChatLog = props => {
   // ** Props & Store
-  const { userProfile, selectedUser, handleUser, handleUserSidebarRight, handleSidebar, userSidebarLeft } = props
+  const { selectedUser, handleUser, handleUserSidebarRight, handleSidebar, userSidebarLeft } = props
 
   // ** Refs & Dispatch
   const chatArea = useRef(null)
@@ -105,7 +104,7 @@ const ChatLog = props => {
               imgWidth={36}
               imgHeight={36}
               className='box-shadow-1 cursor-pointer'
-              img={item.senderId === 11 ? userProfile.avatar : selectedUser.avatar}
+              icon={<User size={20}/>}
             />
           </div>
 
@@ -167,7 +166,7 @@ const ChatLog = props => {
                 <Avatar
                   imgHeight='36'
                   imgWidth='36'
-                  img={selectedUser.avatar}
+                  icon={<User size={20}/>}
                   status={selectedUser.status}
                   className='avatar-border user-profile-toggle m-0 me-1'
                   onClick={() => handleAvatarClick(selectedUser)}
