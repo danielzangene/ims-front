@@ -9,10 +9,10 @@ const Home = () => {
     return (
         <Fragment>
             <Row className='match-height'>
-                <Col lg='3' sm='12'>
+                <Col lg='5' sm='12'>
                     <WelcomeCardMedal/>
                 </Col>
-                <Col lg='9' sm='12'>
+                <Col lg='7' sm='12'>
                     <MonthSummaryCard/>
                 </Col>
             </Row>

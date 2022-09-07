@@ -98,7 +98,7 @@ const LoginCover = () => {
                 <Col className='d-flex align-items-center auth-bg px-2 p-lg-5' lg='4' sm='12'>
                     <Col className='px-xl-2 mx-auto' sm='8' md='6' lg='12'>
                         <CardTitle tag='h2' className='text-center fw-bold mb-1'>
-                            سامانه مدیریتی
+                            ورود
                         </CardTitle>
                         <Form className='auth-login-form mt-2 text-end' onSubmit={handleSubmit}>
                             <div className='mb-1'>
@@ -129,6 +129,11 @@ const LoginCover = () => {
                                 {isPending && "لطفا منتظر بمانید"}
                                 {!isPending && "ورود"}
                             </Button>
+                            <p className='text-center mt-2'>
+                                <Link to='/register'>
+                                    <span>ثبت نام</span>
+                                </Link>
+                            </p>
                         </Form>
                     </Col>
                 </Col>

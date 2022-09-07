@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react'
-import {BarChart, LogOut, TrendingDown, TrendingUp} from 'react-feather'
+import {BarChart, LogOut} from 'react-feather'
 import Avatar from '@components/avatar'
-import {Card, CardBody, CardHeader, CardText, CardTitle, Col, Row} from 'reactstrap'
+import {Card, CardBody, CardHeader, Col, Row} from 'reactstrap'
 import UILoader from '@components/ui-loader'
 import Spinner from '@components/spinner/Loading-spinner'
 import {animated, useSpring} from 'react-spring'
@@ -14,22 +14,22 @@ const MonthSummaryCard = (isVisible) => {
     const contentData = [
         {
             title: 'totalMonth',
-            // subtitle: 'کارکرد ماه',
+            subtitle: 'کارکرد ماه',
             color: 'light-info',
             icon: <BarChart size={24}/>
         },
-        {
-            title: 'totalMonthExtera',
-            subtitle: 'اضافه کار',
-            color: 'light-success',
-            icon: <TrendingUp size={24}/>
-        },
-        {
-            title: 'totalMonthLess',
-            subtitle: 'کسری کار',
-            color: 'light-danger',
-            icon: <TrendingDown size={24}/>
-        },
+        // {
+        //     title: 'totalMonthExtera',
+        //     subtitle: 'اضافه کار',
+        //     color: 'light-success',
+        //     icon: <TrendingUp size={24}/>
+        // },
+        // {
+        //     title: 'totalMonthLess',
+        //     subtitle: 'کسری کار',
+        //     color: 'light-danger',
+        //     icon: <TrendingDown size={24}/>
+        // },
         {
             title: 'totalMonthLeave',
             subtitle: 'مرخصی',
@@ -57,18 +57,10 @@ const MonthSummaryCard = (isVisible) => {
     const renderData = () => {
         return contentData.map((item, index) => {
             return (
-                <Col className='mb-1' key={index} gl='3' md='3' sm='6' xs='6'>
-                    <div className='d-flex align-items-center'>
-                        <Avatar color={item.color} icon={item.icon} className='me-2'/>
-                        <div className='my-auto'>
-                            {index === 0 &&
-                                <h2 className='fw-bolder mb-0'>{data.resultData && data.resultData[item.title]}</h2>
-                            }
-                            {index !== 0 &&
-                                <h4 className='fw-bolder mb-0'>{data.resultData && data.resultData[item.title]}</h4>
-                            }{item.subtitle && <CardText className='font-small-3 mb-0'>{item.subtitle}</CardText>}
-                        </div>
-                    </div>
+                <Col className='mb-1 d-flex text-center align-middle justify-content-center align-items-center' key={index} gl='6' md='6' sm='12' xs='12'>
+                    <h5 className=' '>{item.subtitle}</h5>
+                    <Avatar color={item.color} icon={item.icon} className='mx-2'/>
+                    <h4 className='fw-bolder mb-0'>{data.resultData && data.resultData[item.title]}</h4>
                 </Col>
             )
         })

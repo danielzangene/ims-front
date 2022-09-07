@@ -1,7 +1,7 @@
 import React, {Fragment, useEffect} from 'react'
 import {over} from 'stompjs'
 import SockJS from 'sockjs-client'
-import {getUserData, getAccessToken} from '@utils'
+import {getAccessToken, getUserData} from '@utils'
 import Avatar from '@components/avatar'
 import {toast} from "react-toastify"
 import {FileText} from 'react-feather'
@@ -31,11 +31,14 @@ const NotifHandler = () => {
     }
 
     const connect = () => {
-        console.log(netConfig.baseUrl)
-        const socketUrl = `${netConfig.baseUrl}/api/ws?Authorization=${getAccessToken()}`
-        const Sock = new SockJS(socketUrl)
-        stompClient = over(Sock)
-        stompClient.connect({}, onConnected, onError)
+        try {
+            const socketUrl = `${netConfig.baseUrl}/api/ws?Authorization=${getAccessToken()}`
+            const Sock = new SockJS(socketUrl)
+            stompClient = over(Sock)
+            stompClient.connect({}, onConnected, onError)
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     const InfoToast = ({payload}) => (

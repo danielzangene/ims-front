@@ -187,7 +187,7 @@ const NotificationSidebar = () => {
                 <DropdownToggle href='/' tag='a' className='nav-link dropdown-user-link' onClick={e => showCanvas(e)}>
                     <div className='user-nav d-sm-flex d-none'>
                         <span className='user-name fw-bold'>{(userData && userData.name) || 'John Doe'}</span>
-                        <span className='user-status text-muted'>{(userData && userData.role) || 'Admin'}</span>
+                        <span className='user-status text-muted'>{(userData && userData.role) || ''}</span>
                     </div>
                     <Avatar img={userAvatar} imgHeight='40' imgWidth='40'/>{/*status='online'*/}
                     {data && data.resultData && data.resultData.count !== 0 &&
