@@ -6,18 +6,18 @@ export default [
         title: 'کارکرد',
         icon: <Layers/>,
         children: [
-            // {
-            //     id: 'financial',
-            //     title: 'دوره مالی',
-            //     icon: <Circle className='mx-1' size={20}/>,
-            //     navLink: '/test'
-            // },
-            // {
-            //     id: 'personalSchedule',
-            //     title: 'برنامه زمانی',
-            //     icon: <Circle className='mx-1' size={20}/>,
-            //     navLink: '/test'
-            // },
+            {
+                id: 'financial',
+                title: 'دوره مالی',
+                icon: <Circle className='mx-1' size={20}/>,
+                navLink: '/test'
+            },
+            {
+                id: 'personalSchedule',
+                title: 'برنامه زمانی',
+                icon: <Circle className='mx-1' size={20}/>,
+                navLink: '/test'
+            },
             {
                 id: 'personalRequest',
                 title: 'مرخصی',
