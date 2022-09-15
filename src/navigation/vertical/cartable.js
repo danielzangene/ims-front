@@ -6,12 +6,12 @@ export default [
         title: 'کارکرد',
         icon: <Layers/>,
         children: [
-            // {
-            //     id: 'financial',
-            //     title: 'دوره مالی',
-            //     icon: <Circle className='mx-1' size={20}/>,
-            //     navLink: '/test'
-            // },
+            {
+                id: 'fiscal',
+                title: 'دوره مالی',
+                icon: <Circle className='mx-1' size={20}/>,
+                navLink: '/fiscal'
+            },
             // {
             //     id: 'personalSchedule',
             //     title: 'برنامه زمانی',
